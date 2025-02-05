@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Template</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <!-- D3.js -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-sm-6">
+                <div id="chart" class="col"></div>
+                <input id="slider" type="range" class="form-range" min="0" max="3" step="1" value="0" onchange="sliderChanged()">
+                <small id="slider-value" class="form-text text-muted">0:</small>
+            </div>
+            <div class="col-sm-6">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" </script>
+        < script src = "https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+    </script>
+
+    <!-- Custom JS -->
+    <script>
+        document.getElementById('slider').value = 0
+        function sliderChanged() {
+        var sliderValue = document.getElementById('slider').value;
+        var idx = sliderValue
+        console.log(idx);
+        
+        // document.getElementById('result').textContent = 'Slider Value: ' + sliderValue + ', Index: ' + index;
+        // currentLine = (currentLine + 1) % allData.length; // Cycle through lines
+        updateChart(idx);
+        document.getElementById('slider-value').textContent =idx.toString()
+      }
+        
+        function generateData(sequence, startYear, endYear, minValue, maxValue) {
+            const data = [];
+            const years = endYear - startYear + 1;
+            for (let j = 0; j <= sequence; j++) {
+                let seq = []
+                for (let i = 0; i < years; i++) {
+                    const year = startYear + i;
+                    const value = Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;
+                    seq.push({
+                        year,
+                        value
+                    });
+                }
+                data.push(seq)
+            }
+            return data;
+        }
+
+        const margin = {
+            top: 10,
+            right: 30,
+            bottom: 50,
+            left: 80
+        };
+        // Get the container and calculate the width and height
+        const chartContainer = d3.select("#chart");
+        const width = chartContainer.node().clientWidth - margin.left - margin.right;
+        const height = width * 0.6; // Set the height to be 60% of the width
+
+        // Append the SVG object to the body of the page
+        const svg = chartContainer
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Define the data
+        // Define the data, now an array of arrays
+
+
+
+        const allData = generateData(3, 2010, 2035, 8100, 11000);
+        const colours = ["red", "green", "blue", "orange"]
+
+
+        let currentLine = 0; // Start with the first line
+
+        function updateChart(lineIndex) {
+            if (lineIndex === undefined) lineIndex = currentLine;
+
+            const data = allData[lineIndex];
+            const color = colours[lineIndex];
+            console.log(color);
+
+
+            // create a local variable color inside the updateChart function and set its value to colours[lineIndex] 
+            // before the data.forEach loop. Then, use this color variable inside 
+            // the attr functions to set the stroke and fill colors.
+
+            data.forEach(d => {
+                d.date = d3.timeParse("%Y")(d.year);
+                d.value = +d.value;
+            });
+
+            const x = d3.scaleTime()
+                .domain(d3.extent(data, d => d.date))
+                .range([0, width]);
+
+            // const y = d3.scaleLinear()
+            //     .domain([d3.min(data, d => d.value), d3.max(data, d => d.value)])
+            //     .range([height, 0]);
+
+            svg.selectAll("g.x-axis").transition().duration(750).call(d3.axisBottom(x));
+            svg.selectAll("g.y-axis").transition().duration(750).call(d3.axisLeft(y));
+
+            const line = svg.selectAll(".line").data([data]);
+            line.enter().append("path")
+                .attr("fill", "none")
+
+                .attr("stroke-width", 1.5)
+                .attr("class", "line")
+                .attr("d", d3.line()
+                    .x(d => x(d.date))
+                    .y(d => y(d.value)))
+
+                .merge(line)
+                .transition().duration(750)
+                .attr("d", d3.line()
+                    .x(d => x(d.date))
+                    .y(d => y(d.value)))
+                .attr("stroke", color);
+
+            const circles = svg.selectAll("circle").data(data);
+            circles.enter().append("circle")
+                .attr("cx", d => x(d.date))
+                .attr("cy", d => y(d.value))
+                .attr("r", 5)
+
+                .merge(circles)
+                .transition().duration(750)
+                .attr("cx", d => x(d.date))
+                .attr("cy", d => y(d.value))
+                .attr("fill", color);
+
+            circles.exit().remove()
+        }
+
+
+
+        // Add X and Y axes with classes for selection
+        const x = d3.scaleTime()
+            .domain(d3.extent(allData[0], d => d3.timeParse("%Y")(d.year))) // Initialize with the first line's data
+            .range([0, width]);
+
+        svg.append("g")
+            .attr("transform", `translate(0,${height})`)
+            .attr("class", "x-axis")
+            .call(d3.axisBottom(x));
+
+        // Add a label for the x-axis
+        svg.append("text")
+            .attr("x", width / 2)
+            .attr("y", height + 40) // Adjust the vertical position as needed
+            .attr("text-anchor", "middle")
+            .text("Year");
+
+        const y = d3.scaleLinear()
+            .domain([d3.min(allData[0], d => d.value), d3.max(allData[0], d => d.value)])
+            .range([height, 0]);
+
+        svg.append("g")
+            .attr("class", "y-axis")
+            .call(d3.axisLeft(y));
+
+        // Add a label for the y-axis
+        svg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("x", -height / 2)
+            .attr("y", -60) // Adjust the horizontal position as needed
+            .attr("text-anchor", "middle")
+            .text("Values measured");
+
+        // Initial chart draw
+        updateChart(currentLine);
+    </script>
+</body>
+
+</html>
