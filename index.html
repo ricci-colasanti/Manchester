@@ -86,16 +86,23 @@ const svg = chartContainer
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
-// Add X and Y axes with classes for selection
+// Add X and Y axes with classes for selectionconst xAxis = d3.axisBottom(xScale);
+
+
+
 const x = d3.scaleLinear()
     .domain([2020, 2036])
     .range([0, width]);
 
+
+const xAxis = d3.axisBottom(x);
+
+xAxis.tickFormat(d => d.toString().replace(',', ''));
 // Append the X axis
 svg.append("g")
     .attr("transform", `translate(0,${height})`)
     .attr("class", "x-axis")
-    .call(d3.axisBottom(x));
+    .call(xAxis);
 
 // Add a label for the x-axis
 svg.append("text")
