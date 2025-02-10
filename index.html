@@ -23,10 +23,30 @@
             opacity: 0.1;
         }
         #slider {
-            width: 80%;
+            width: 100%;
             margin-top: 10px;
-            margin-left: 100px;
         }
+
+        .slider-container {
+  position: relative;
+  width: 80%; /* Adjust as needed */
+  margin-left: 100px;
+
+}
+
+.ticks {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  width: 100%;
+  top: 20px; /* Adjust to position ticks below the slider */
+}
+
+.ticks span {
+    padding-top: 10px;
+  font-size: 10px;
+  color: #000;
+}
     </style>
 </head>
 
@@ -37,8 +57,25 @@
             <div class="col-sm-6">
                 <div id="chart" class="col"></div>
                 <div id="SFLevel">10 Pounds</div>
-                <input id='slider' type="range" value = 0 class="form-range" min="0" max="12" step="1" oninput="selectSf(this.value)">
-            </div>
+                <div class="slider-container">
+                    <input id="slider" type="range" value="0" class="form-range" min="0" max="12" step="1" oninput="selectSf(this.value)">
+                    <div class="ticks">
+                      <span>10</span>
+                      <span>20</span>
+                      <span>30</span>
+                      <span>40</span>
+                      <span>50</span>
+                      <span>60</span>
+                      <span>70</span>
+                      <span>80</span>
+                      <span>90</span>
+                      <span>100</span>
+                      <span>110</span>
+                      <span>120</span>
+                      <span>130</span>
+                    </div>
+                  </div>   
+                </div>
             <div class="col-sm-6"></div>
         </div>
     </div>
