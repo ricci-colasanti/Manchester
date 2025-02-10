@@ -47,9 +47,39 @@
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
+        // Add X and Y axes with classes for selection
+        const x = d3.scaleLinear()
+                .domain([2020, 2036])
+                .range([0, width]);
 
         // append the svg object to the body of the page
+        svg.append("g")
+            .attr("transform", `translate(0,${height})`)
+            .attr("class", "x-axis")
+            .call(d3.axisBottom(x));
 
+        // Add a label for the x-axis
+        svg.append("text")
+            .attr("x", width / 2)
+            .attr("y", height + 40) // Adjust the vertical position as needed
+            .attr("text-anchor", "middle")
+            .text("Year");
+
+            // Add Y axis
+            const y = d3.scaleLinear()
+                .domain([0, 3.0])
+                .range([height, 0]);
+        svg.append("g")
+            .attr("class", "y-axis")
+            .call(d3.axisLeft(y));
+
+        // Add a label for the y-axis
+        svg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("x", -height / 2)
+            .attr("y", -60) // Adjust the horizontal position as needed
+            .attr("text-anchor", "middle")
+            .text("Mean SF-12 Change");
 
         // Read the mean and standard deviation data
         Promise.all([
@@ -78,17 +108,12 @@
                 .attr("value", d => d); // corresponding value returned by the button
 
             // Add X axis --> it is a date format
-            const x = d3.scaleLinear()
-                .domain([2020, 2036])
-                .range([0, width]);
+
             svg.append("g")
                 .attr("transform", `translate(0, ${height})`)
                 .call(d3.axisBottom(x));
 
-            // Add Y axis
-            const y = d3.scaleLinear()
-                .domain([0, 3.0])
-                .range([height, 0]);
+
             svg.append("g")
                 .call(d3.axisLeft(y));
 
