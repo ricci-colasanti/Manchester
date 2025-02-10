@@ -19,7 +19,7 @@
             height: auto;
             padding: 5px;
             font: 12px sans-serif;
-            background: rgba(200, 200, 200, 0.8);
+            background: rgba(210, 210, 210, 0.9);
             border: 0px;
             border-radius: 5px;
             pointer-events: none;
@@ -194,7 +194,7 @@ Promise.all([
         .style("fill", groupColors["SF_12_10"])
         .on('mouseover', (event, d) => {
             tooltip.style("opacity", 1)
-                .html(`Sf _12: ${d.year}<br>Value: ${d3.format('.2r')(d.value)}`)
+                .html(`Sf _12: ${d3.format('.2r')(d.value)}`)
                 .style("left", `${event.pageX + 5}px`)
                 .style("top", `${event.pageY - 20}px`);
         })
