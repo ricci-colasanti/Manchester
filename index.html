@@ -26,6 +26,9 @@
             width: 100%;
             margin-top: 10px;
         }
+        #SFLevel{
+            margin-left: 30px;
+        }
 
         .slider-container {
   position: relative;
@@ -55,6 +58,7 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-sm-6">
+                
                 <div id="chart" class="col"></div>
                 <div id="SFLevel">10 Pounds</div>
                 <div class="slider-container">
@@ -109,7 +113,7 @@ const x = d3.scaleLinear()
 
 // Define the Y scale (linear scale for SF-12 values)
 const y = d3.scaleLinear()
-    .domain([0, 2.6]) // Data range: SF-12 values from 0 to 2.6
+    .domain([0, 2.4]) // Data range: SF-12 values from 0 to 2.6
     .range([height, 0]); // Map to the height of the chart (inverted for Y-axis)
 
 // Create the X-axis with formatted ticks (remove commas from year labels)
