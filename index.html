@@ -27,6 +27,11 @@
             opacity: 0.1;
             /* Hidden by default */
         }
+        #slider {
+    width: 80%; /* Full width */
+    margin-top: 10px; /* Add some spacing between the chart and the slider */
+    margin-left: 100px; /* Add some spacing between the chart and the slider */
+}
     </style>
 </head>
 
@@ -36,8 +41,10 @@
         <div class="row">
             <div class="col-sm-6">
                 <div id="chart" class="col"></div>
-                <select id="selectButton"></select>
-
+                    <div margin-left = "100px" id="SFLevel"> 10 Pounds</div>
+                
+                    <input type="range" margin-left="100px" value="0" class="form-range" min="0" max="12" step="1" id="slider" onchange="selectSf(this.value)">
+                
             </div>
             <div class="col-sm-6">
 
@@ -51,200 +58,205 @@
 
     <script>
         // set the dimensions and margins of the graph
-        const margin = {
-            top: 10,
-            right: 30,
-            bottom: 50,
-            left: 80
-        };
-        const chartContainer = d3.select("#chart");
-        const width = chartContainer.node().clientWidth - margin.left - margin.right;
-        const height = width * 0.6; // Set the height to be 60% of the width
+
+        function selectSf(value) {
+    update(allGroup[value]); // Call update with the selected group
+    money = (parseInt(value)+1) * 10
+    console.log(value);
+    
+    document.getElementById('SFLevel').innerHTML = money+ " Pounds"
+}
+
+const margin = {
+    top: 10,
+    right: 30,
+    bottom: 50,
+    left: 80
+};
+const chartContainer = d3.select("#chart");
+const width = chartContainer.node().clientWidth - margin.left - margin.right;
+const height = width * 0.6; // Set the height to be 60% of the width
+
+const tooltip = d3.select(".tooltip");
+
+const svg = chartContainer
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+// Add X and Y axes with classes for selection
+const x = d3.scaleLinear()
+    .domain([2020, 2036])
+    .range([0, width]);
+
+// Append the X axis
+svg.append("g")
+    .attr("transform", `translate(0,${height})`)
+    .attr("class", "x-axis")
+    .call(d3.axisBottom(x));
+
+// Add a label for the x-axis
+svg.append("text")
+    .attr("x", width / 2)
+    .attr("y", height + 40) // Adjust the vertical position as needed
+    .attr("text-anchor", "middle")
+    .text("Year");
+
+// Add Y axis
+const y = d3.scaleLinear()
+    .domain([0, 3.0])
+    .range([height, 0]);
+svg.append("g")
+    .attr("class", "y-axis")
+    .call(d3.axisLeft(y));
+
+// Add a label for the y-axis
+svg.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("x", -height / 2)
+    .attr("y", -60) // Adjust the horizontal position as needed
+    .attr("text-anchor", "middle")
+    .text("Mean SF-12 Change");
+
+// Variables to store data and colors
+let meanData, stdData, allGroup, groupColors;
+let line, dot, area
+    // List of groups
+    allGroup = ["SF_12_10", "SF_12_20", "SF_12_30", "SF_12_40", "SF_12_50", "SF_12_60",
+        "SF_12_70", "SF_12_80", "SF_12_90", "SF_12_100", "SF_12_110", "SF_12_120", "SF_12_130"
+    ];
+// Read the mean and standard deviation data
+Promise.all([
+    d3.csv("Results/combined_summary_grouped_mean.csv"),
+    d3.csv("Results/combined_summary_grouped_std.csv")
+]).then(function ([mean, std]) {
+    meanData = mean;
+    stdData = std;
 
 
-        const tooltip = d3.select(".tooltip");
 
-        const svg = chartContainer
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", `translate(${margin.left},${margin.top})`);
-        // Add X and Y axes with classes for selection
-        const x = d3.scaleLinear()
-            .domain([2020, 2036])
-            .range([0, width]);
+    // Create a color scale
+    const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
-        // append the svg object to the body of the page
-        svg.append("g")
-            .attr("transform", `translate(0,${height})`)
-            .attr("class", "x-axis")
-            .call(d3.axisBottom(x));
+    // Create a dictionary (object) where each group is assigned a color
+    groupColors = {};
+    allGroup.forEach(group => {
+        groupColors[group] = colorScale(group);
+    });
 
-        // Add a label for the x-axis
-        svg.append("text")
-            .attr("x", width / 2)
-            .attr("y", height + 40) // Adjust the vertical position as needed
-            .attr("text-anchor", "middle")
-            .text("Year");
+    // Add the options to the button
+    d3.select("#selectButton")
+        .selectAll('myOptions')
+        .data(allGroup)
+        .enter()
+        .append('option')
+        .text(d => d) // text showed in the menu
+        .attr("value", d => d); // corresponding value returned by the button
 
-        // Add Y axis
-        const y = d3.scaleLinear()
-            .domain([0, 3.0])
-            .range([height, 0]);
-        svg.append("g")
-            .attr("class", "y-axis")
-            .call(d3.axisLeft(y));
+    // Initialize line with group a
+     line = svg
+        .append('g')
+        .append("path")
+        .datum(meanData)
+        .attr("d", d3.line()
+            .x(d => x(+d.year))
+            .y(d => y(+d.SF_12_10))
+        )
+        .attr("stroke", groupColors["SF_12_10"])
+        .style("stroke-width", 1)
+        .style("fill", "none");
 
-        // Add a label for the y-axis
-        svg.append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("x", -height / 2)
-            .attr("y", -60) // Adjust the horizontal position as needed
-            .attr("text-anchor", "middle")
-            .text("Mean SF-12 Change");
+    // Initialize area for standard deviation
+     area = svg
+        .append('g')
+        .append("path")
+        .attr("class", "area")
+        .style("fill", groupColors["SF_12_10"])
+        .style("opacity", 0.2);
 
-        // Read the mean and standard deviation data
-        Promise.all([
-            d3.csv("Results/combined_summary_grouped_mean.csv"),
-            d3.csv("Results/combined_summary_grouped_std.csv")
-        ]).then(function ([meanData, stdData]) {
-
-            // List of groups
-            const allGroup = ["SF_12_10", "SF_12_20", "SF_12_30", "SF_12_40", "SF_12_50", "SF_12_60",
-                "SF_12_70", "SF_12_80", "SF_12_90", "SF_12_100", "SF_12_110", "SF_12_120", "SF_12_130"
-            ];
-            const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
-
-            // Create a dictionary (object) where each group is assigned a color
-            const groupColors = {};
-            allGroup.forEach(group => {
-                groupColors[group] = colorScale(group);
-            });
-            // Add the options to the button
-            d3.select("#selectButton")
-                .selectAll('myOptions')
-                .data(allGroup)
-                .enter()
-                .append('option')
-                .text(d => d) // text showed in the menu
-                .attr("value", d => d); // corresponding value returned by the button
-
-            // Add X axis --> it is a date format
-
-            svg.append("g")
-                .attr("transform", `translate(0, ${height})`)
-                .call(d3.axisBottom(x));
-
-
-            svg.append("g")
-                .call(d3.axisLeft(y));
-
-            // Initialize line with group a
-            const line = svg
-                .append('g')
-                .append("path")
-                .datum(meanData)
-                .attr("d", d3.line()
-                    .x(d => x(+d.year))
-                    .y(d => y(+d.SF_12_10))
-                )
-                .attr("stroke", groupColors["SF_12_10"])
-                .style("stroke-width", 1)
-                .style("fill", "none");
-
-            // Initialize area for standard deviation
-            const area = svg
-                .append('g')
-                .append("path")
-                .attr("class", "area")
-                .style("fill", groupColors["SF_12_10"])
-                .style("opacity", 0.2);
-
-            // Initialize dots with group a
-            const dot = svg
-                .selectAll('circle')
-                .data(meanData)
-                .join('circle')
-                .attr("cx", d => x(+d.year))
-                .attr("cy", d => y(+d.SF_12_10))
-                .attr("r", 5)
-                .style("fill", groupColors["SF_12_10"])
-                .on('mouseover', (event, d) => {
-                    tooltip.style("opacity", 1)
-                        .html(`Sf _12: ${d.year}<br>Value: ${d3.format('.2r')(d.value)}`)
-                        .style("left", `${event.pageX + 5}px`)
-                        .style("top", `${event.pageY - 20}px`);
-                })
-                .on("mousemove", function (event) {
-                    tooltip
-                        .style("left", `${event.pageX + 5}px`)
-                        .style("top", `${event.pageY - 20}px`);
-                })
-                .on("mouseout", function () {
-                    tooltip.style("opacity", 0); // Hide tooltip
-                });
-
-            // A function that updates the chart
-            function update(selectedGroup) {
-                // Create new data with the selection
-                const dataFilter = meanData.map(function (d) {
-                    return {
-                        year: d.year,
-                        value: d[selectedGroup],
-                        std: stdData.find(sd => sd.year === d.year)[selectedGroup]
-                    };
-                });
-
-                const stdFilter = stdData.map(function (d) {
-                    return {
-                        year: d.year,
-                        value: d[selectedGroup],
-                        std: stdData.find(sd => sd.year === d.year)[selectedGroup]
-                    };
-                }); // Update the line
-                line
-                    .datum(dataFilter)
-                    .transition()
-                    .duration(500)
-                    .attr("d", d3.line()
-                        .x(d => x(+d.year))
-                        .y(d => y(+d.value))
-                    )
-                    .style("stroke", groupColors[selectedGroup]);
-
-                // Update the area
-                area
-                    .datum(stdFilter)
-                    .transition()
-                    .duration(500)
-                    .attr("d", d3.area()
-                        .x(d => x(+d.year))
-                        .y0(d => y(+d.value - d.std)) // Lower bound (mean - std)
-                        .y1(d => y(+d.value + d.std)) // Upper bound (mean + std)
-                    )
-                    .style("fill", groupColors[selectedGroup]);
-
-                // Update the dots
-                dot
-                    .data(dataFilter)
-                    .transition()
-                    .duration(500)
-                    .attr("cx", d => x(+d.year))
-                    .attr("cy", d => y(+d.value))
-                    .style("fill", groupColors[selectedGroup])
-
-            }
-
-            // When the button is changed, run the updateChart function
-            d3.select("#selectButton").on("change", function (event, d) {
-                // recover the option that has been chosen
-                let selectedOption = d3.select(this).property("value");
-                // run the updateChart function with this selected option
-                update(selectedOption);
-            });
-            update('SF_12_10');
+    // Initialize dots with group a
+     dot = svg
+        .selectAll('circle')
+        .data(meanData)
+        .join('circle')
+        .attr("cx", d => x(+d.year))
+        .attr("cy", d => y(+d.SF_12_10))
+        .attr("r", 5)
+        .style("fill", groupColors["SF_12_10"])
+        .on('mouseover', (event, d) => {
+            tooltip.style("opacity", 1)
+                .html(`Sf _12: ${d.year}<br>Value: ${d3.format('.2r')(d.value)}`)
+                .style("left", `${event.pageX + 5}px`)
+                .style("top", `${event.pageY - 20}px`);
+        })
+        .on("mousemove", function (event) {
+            tooltip
+                .style("left", `${event.pageX + 5}px`)
+                .style("top", `${event.pageY - 20}px`);
+        })
+        .on("mouseout", function () {
+            tooltip.style("opacity", 0); // Hide tooltip
         });
+
+    // Initialize the chart with the first group
+    update('SF_12_10');
+});
+
+// A function that updates the chart
+function update(selectedGroup) {
+    // Create new data with the selection
+    console.log(selectedGroup);
+    
+    const dataFilter = meanData.map(function (d) {
+        return {
+            year: d.year,
+            value: d[selectedGroup],
+            std: stdData.find(sd => sd.year === d.year)[allGroup[selectedGroup]]
+        };
+    });
+
+    const stdFilter = stdData.map(function (d) {
+        return {
+            year: d.year,
+            value: d[selectedGroup],
+            std: stdData.find(sd => sd.year === d.year)[allGroup[selectedGroup]]
+        };
+    });
+
+    // Update the line
+    line
+        .datum(dataFilter)
+        .transition()
+        .duration(500)
+        .attr("d", d3.line()
+            .x(d => x(+d.year))
+            .y(d => y(+d.value))
+        )
+        .style("stroke", groupColors[selectedGroup]);
+
+    // Update the area
+    area
+        .datum(stdFilter)
+        .transition()
+        .duration(500)
+        .attr("d", d3.area()
+            .x(d => x(+d.year))
+            .y0(d => y(+d.value - d.std)) // Lower bound (mean - std)
+            .y1(d => y(+d.value + d.std)) // Upper bound (mean + std)
+        )
+        .style("fill", groupColors[selectedGroup]);
+
+    // Update the dots
+    dot
+        .data(dataFilter)
+        .transition()
+        .duration(500)
+        .attr("cx", d => x(+d.year))
+        .attr("cy", d => y(+d.value))
+        .style("fill", groupColors[selectedGroup]);
+}
     </script>
 </body>
 
