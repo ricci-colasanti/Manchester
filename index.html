@@ -44,7 +44,7 @@
   position: absolute;
   width: 100%;
   top: 20px; /* Adjust to position ticks below the slider */
-}
+}pointer
 
 .ticks span {
     padding-top: 10px;
@@ -244,8 +244,8 @@ function update(selectedGroup) {
         .transition().duration(500) // Smooth transition
         .attr("d", d3.area() // Redefine the area path
             .x(d => x(+d.year))
-            .y0(d => y(+d.value - d.std)) // Lower bound (mean - std)
-            .y1(d => y(+d.value + d.std)) // Upper bound (mean + std)
+            .y0(d => y(+d.value - d.std*1.0)) // Lower bound (mean - std)
+            .y1(d => y(+d.value + d.std*1.0)) // Upper bound (mean + std)
         )
         .style("fill", groupColors[selectedGroup]); // Update area color
 
