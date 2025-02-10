@@ -191,7 +191,7 @@ Promise.all([
         .join("circle") // Create circles for each data point
         .attr("cx", d => x(+d.year)) // X-coordinate: year
         .attr("cy", d => y(+d.SF_12_10)) // Y-coordinate: SF-12 value
-        .attr("r", 5) // Radius of the dots
+        .attr("r", 3) // Radius of the dots
         .style("fill", groupColors["SF_12_10"]) // Set dot color
         .on('mouseover', (event, d) => { // Show tooltip on mouseover
             event.target.style.cursor = "pointer";
