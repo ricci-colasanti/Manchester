@@ -90,7 +90,7 @@
             <div class="col-sm-6">
                 <div id="chart2" class="chart"></div>
             </div>
-        </div>        
+        </div>
     </div>
 
 
@@ -99,7 +99,12 @@
         document.getElementById('slider').value = 0;
 
         // Define margins for the chart (top, right, bottom, left)
-        const margin = { top: 10, right: 30, bottom: 50, left: 80 };
+        const margin = {
+            top: 10,
+            right: 30,
+            bottom: 50,
+            left: 80
+        };
 
         // Select the chart containers and calculate their width and height
         const chartContainer1 = d3.select("#chart1");
@@ -137,7 +142,7 @@
         const y2 = d3.scaleLinear()
             .domain([-0.20, 0]) // Data range: SF-12 values from 0 to 2.6
             .range([height, 0]); // Map to the height of the chart (inverted for Y-axis)
-    
+
         // Create the X-axis with formatted ticks (remove commas from year labels)
         const xAxis = d3.axisBottom(x).tickFormat(d => d.toString().replace(',', ''));
         svg1.append("g")
@@ -189,7 +194,7 @@
 
         // Variables to store data and chart elements
         let meanData1, stdData1, meanData2, stdData2; // Data from CSV files
-        let allGroup, menGroup,groupColors; // Groups and their corresponding colors
+        let allGroup, menGroup, groupColors; // Groups and their corresponding colors
         let line1, dot1, area1, line2, dot2, area2; // Chart elements: line, dots, and area for standard deviation
 
         // Define all groups (SF-12 categories)
@@ -197,14 +202,19 @@
             "SF_12_10", "SF_12_20", "SF_12_30", "SF_12_40", "SF_12_50", "SF_12_60",
             "SF_12_70", "SF_12_80", "SF_12_90", "SF_12_100", "SF_12_110", "SF_12_120", "SF_12_130"
         ];
-        menGroup = ["prop_10","prop_20","prop_30","prop_40","prop_50","prop_60","prop_70",
-        "prop_80","prop_90","prop_100","prop_110","prop_120","prop_130"]
+
+
+        menGroup = ["prop_10", "prop_20", "prop_30", "prop_40", "prop_50", "prop_60", "prop_70",
+            "prop_80", "prop_90", "prop_100", "prop_110", "prop_120", "prop_130"
+        ]
         // Load data from CSV files asynchronously
         Promise.all([
             d3.csv("Results/combined_summary_grouped_mean.csv"), // Load mean data for chart 1
             d3.csv("Results/combined_summary_grouped_std.csv"), // Load std data for chart 1
-            d3.csv("Results/combined_summary_UC_families_men_illness_risk_mean.csv"), // Load mean data for chart 2 (replace with your own dataset)
-            d3.csv("Results/combined_summary_UC_families_men_illness_risk_std.csv") // Load std data for chart 2 (replace with your own dataset)
+            d3.csv(
+            "Results/combined_summary_UC_families_men_illness_risk_mean.csv"), // Load mean data for chart 2 (replace with your own dataset)
+            d3.csv(
+            "Results/combined_summary_UC_families_men_illness_risk_std.csv") // Load std data for chart 2 (replace with your own dataset)
         ]).then(([mean1, std1, mean2, std2]) => {
             // Store the loaded data
             meanData1 = mean1;
@@ -213,8 +223,21 @@
             stdData2 = std2;
 
             // Create a color scale for the groups
-            const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
-            groupColors = Object.fromEntries(allGroup.map(group => [group, colorScale(group)])); // Map groups to colors
+            //      const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+            const colorScale = (group) => {
+                const colors = [
+                    "#440154FF", "#482173FF", "#433E85FF", "#38598CFF", "#2D708EFF", "#25858EFF",
+                    "#1E9B8AFF", "#2BB07FFF", "#51C56AFF", "#85D54AFF", "#C2DF23FF", "#FDE725FF"
+                ];
+
+                const index = allGroup.indexOf(group);
+                return index !== -1 ? colors[index] : "#CCCCCC";
+            };
+
+            groupColors = Object.fromEntries(allGroup.map(group => [group, colorScale(
+            group)])); // Map groups to colors
+
+
 
             // Initialize the line chart for the first group (SF_12_10)
             line1 = svg1.append("path")
@@ -240,12 +263,12 @@
             // Initialize the area chart for standard deviation
             area1 = svg1.append("path")
                 .attr("class", "area")
-                .style("fill", groupColors["SF_12_10"]*1.0) // Set area color
+                .style("fill", groupColors["SF_12_10"] * 1.0) // Set area color
                 .style("opacity", 0.2); // Set area opacity
 
             area2 = svg2.append("path")
                 .attr("class", "area")
-                .style("fill", groupColors["prop_10"]*1.0) // Set area color
+                .style("fill", groupColors["prop_10"] * 1.0) // Set area color
                 .style("opacity", 0.2); // Set area opacity
 
             // Initialize dots for data points
@@ -288,31 +311,33 @@
                 .on("mouseout", () => tooltip.style("opacity", 0)); // Hide tooltip on mouseout
 
             // Initialize the chart with the first group (SF_12_10)
-            update('SF_12_10','prop_10');
+            update('SF_12_10', 'prop_10');
         });
 
         // Function to handle slider changes
         function selectSf(value) {
             const selectedGroup = allGroup[value]; // Get the selected group
             const selectedSeconGroup = menGroup[value];
-            update(selectedGroup,selectedSeconGroup); // Update the chart with the selected group
+            update(selectedGroup, selectedSeconGroup); // Update the chart with the selected group
             const money = (parseInt(value) + 1) * 10; // Calculate the money value
             document.getElementById('SFLevel').innerHTML = `${money} Pounds`; // Update the displayed money value
         }
 
         // Function to update the chart based on the selected group
-        function update(selectedGroup,selectedSeconGroup) {
+        function update(selectedGroup, selectedSeconGroup) {
             // Filter and map the data for the selected group
             const dataFilter1 = meanData1.map(d => ({
                 year: d.year, // Year
                 value: d[selectedGroup], // SF-12 value for the selected group
-                std: stdData1.find(sd => sd.year === d.year)[selectedGroup] // Standard deviation for the selected group
+                std: stdData1.find(sd => sd.year === d.year)[
+                    selectedGroup] // Standard deviation for the selected group
             }));
 
             const dataFilter2 = meanData2.map(d => ({
                 year: d.year, // Year
                 value: d[selectedSeconGroup], // SF-12 value for the selected group
-                std: stdData2.find(sd => sd.year === d.year)[selectedSeconGroup] // Standard deviation for the selected group
+                std: stdData2.find(sd => sd.year === d.year)[
+                    selectedSeconGroup] // Standard deviation for the selected group
             }));
 
             // Update the line chart for chart 1
