@@ -122,13 +122,13 @@
             .append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`); // Apply margins to the inner group
 
-        // Add a light gray background to the plotting area for svg1
-        svg1.append("rect")
-            .attr("x", 0)
-            .attr("y", 0)
-            .attr("width", width)
-            .attr("height", height)
-            .attr("fill", "#f0f0f0"); // Light gray color
+        // // Add a light gray background to the plotting area for svg1
+        // svg1.append("rect")
+        //     .attr("x", 0)
+        //     .attr("y", 0)
+        //     .attr("width", width)
+        //     .attr("height", height)
+        //     .attr("fill", "#f0f0f0"); // Light gray color
 
         const svg2 = chartContainer2.append("svg")
             .attr("width", width + margin.left + margin.right) // Set SVG width
@@ -137,12 +137,12 @@
             .attr("transform", `translate(${margin.left},${margin.top})`); // Apply margins to the inner group
 
         // Add a light gray background to the plotting area for svg2
-        svg2.append("rect")
-            .attr("x", 0)
-            .attr("y", 0)
-            .attr("width", width)
-            .attr("height", height)
-            .attr("fill", "#f0f0f0"); // Light gray color
+        // svg2.append("rect")
+        //     .attr("x", 0)
+        //     .attr("y", 0)
+        //     .attr("width", width)
+        //     .attr("height", height)
+        //     .attr("fill", "#f0f0f0"); // Light gray color
         // Define the X scale (linear scale for years)
         const x = d3.scaleLinear()
             .domain([2020, 2036]) // Data range: years from 2020 to 2036
@@ -208,51 +208,51 @@
             .text("Mean Change"); // Label text
 
 
-        // Add X-axis grid lines for svg1
-        svg1.append("g")
-            .attr("class", "x-grid")
-            .attr("transform", `translate(0,${height})`) // Position at the bottom
-            .call(d3.axisBottom(x)
-                .tickSize(-height) // Make the ticks span the entire height
-                .tickFormat("") // Remove tick labels
-            )
-            .selectAll("line") // Select all grid lines
-            .attr("stroke", "white") // Set grid line color
-            .attr("stroke-width", 1); // Set grid line thickness
+        // // Add X-axis grid lines for svg1
+        // svg1.append("g")
+        //     .attr("class", "x-grid")
+        //     .attr("transform", `translate(0,${height})`) // Position at the bottom
+        //     .call(d3.axisBottom(x)
+        //         .tickSize(-height) // Make the ticks span the entire height
+        //         .tickFormat("") // Remove tick labels
+        //     )
+        //     .selectAll("line") // Select all grid lines
+        //     .attr("stroke", "white") // Set grid line color
+        //     .attr("stroke-width", 1); // Set grid line thickness
 
-        // Add Y-axis grid lines for svg1
-        svg1.append("g")
-            .attr("class", "y-grid")
-            .call(d3.axisLeft(y1)
-                .tickSize(-width) // Make the ticks span the entire width
-                .tickFormat("") // Remove tick labels
-            )
-            .selectAll("line") // Select all grid lines
-            .attr("stroke", "white") // Set grid line color
-            .attr("stroke-width", 1); // Set grid line thickness
+        // // Add Y-axis grid lines for svg1
+        // svg1.append("g")
+        //     .attr("class", "y-grid")
+        //     .call(d3.axisLeft(y1)
+        //         .tickSize(-width) // Make the ticks span the entire width
+        //         .tickFormat("") // Remove tick labels
+        //     )
+        //     .selectAll("line") // Select all grid lines
+        //     .attr("stroke", "white") // Set grid line color
+        //     .attr("stroke-width", 1); // Set grid line thickness
 
-        // Add X-axis grid lines for svg2
-        svg2.append("g")
-            .attr("class", "x-grid")
-            .attr("transform", `translate(0,${height})`) // Position at the bottom
-            .call(d3.axisBottom(x)
-                .tickSize(-height) // Make the ticks span the entire height
-                .tickFormat("") // Remove tick labels
-            )
-            .selectAll("line") // Select all grid lines
-            .attr("stroke", "white") // Set grid line color
-            .attr("stroke-width", 1); // Set grid line thickness
+        // // Add X-axis grid lines for svg2
+        // svg2.append("g")
+        //     .attr("class", "x-grid")
+        //     .attr("transform", `translate(0,${height})`) // Position at the bottom
+        //     .call(d3.axisBottom(x)
+        //         .tickSize(-height) // Make the ticks span the entire height
+        //         .tickFormat("") // Remove tick labels
+        //     )
+        //     .selectAll("line") // Select all grid lines
+        //     .attr("stroke", "white") // Set grid line color
+        //     .attr("stroke-width", 1); // Set grid line thickness
 
-        // Add Y-axis grid lines for svg2
-        svg2.append("g")
-            .attr("class", "y-grid")
-            .call(d3.axisLeft(y2)
-                .tickSize(-width) // Make the ticks span the entire width
-                .tickFormat("") // Remove tick labels
-            )
-            .selectAll("line") // Select all grid lines
-            .attr("stroke", "white") // Set grid line color
-            .attr("stroke-width", 1); // Set grid line thickness            
+        // // Add Y-axis grid lines for svg2
+        // svg2.append("g")
+        //     .attr("class", "y-grid")
+        //     .call(d3.axisLeft(y2)
+        //         .tickSize(-width) // Make the ticks span the entire width
+        //         .tickFormat("") // Remove tick labels
+        //     )
+        //     .selectAll("line") // Select all grid lines
+        //     .attr("stroke", "white") // Set grid line color
+        //     .attr("stroke-width", 1); // Set grid line thickness            
 
         // Variables to store data and chart elements
         let meanData1, stdData1, meanData2, stdData2; // Data from CSV files
@@ -289,10 +289,15 @@
             // Create a color scale for the groups
             //      const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
             const colorScale = (group) => {
-                const colors = [
-                    "#440154FF" ,"#481F70FF", "#443A83FF", "#3B528BFF", "#31688EFF", "#287C8EFF", 
-                    "#21908CFF" ,"#20A486FF" ,"#35B779FF" ,"#5DC863FF", "#8FD744FF", "#C7E020FF", 
-                    "#FDE725FF"
+                
+                    // "#440154FF" ,"#481F70FF", "#443A83FF", "#3B528BFF", "#31688EFF", "#287C8EFF", 
+                    // "#21908CFF" ,"#20A486FF" ,"#35B779FF" ,"#5DC863FF", "#8FD744FF", "#C7E020FF", 
+                    // "#FDE725FF"
+                   
+                    const colors = ["#440154FF", "#481668FF", "#482878FF", "#443A83FF", "#3E4A89FF",
+                     "#375A8CFF", "#31688EFF", "#2B758EFF", "#26828EFF", "#21908CFF", "#1F9E89FF",
+                     "#25AB82FF", "#35B779FF", "#4EC36BFF", "#6DCD59FF", "#8FD744FF", "#B4DE2CFF",
+                     "#DAE319FF", "#FDE725FF"
                 ];
 
                 const index = allGroup.indexOf(group);
