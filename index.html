@@ -319,7 +319,7 @@
                 .datum(meanData2) // Bind mean data to the line
                 .attr("d", d3.line() // Define the line path
                     .x(d => x(+d.year)) // X-coordinate: year
-                    .y(d => y2(+d.SF_12_10)) // Y-coordinate: SF-12 value
+                    .y(d => y2(+d.prop_10)) // Y-coordinate: SF-12 value
                 )
                 .attr("stroke", groupColors["prop_10"]) // Set line color
                 .style("stroke-width", 1) // Set line width
@@ -360,7 +360,7 @@
                 .data(meanData2) // Bind mean data to the dots
                 .join("circle") // Create circles for each data point
                 .attr("cx", d => x(+d.year)) // X-coordinate: year
-                .attr("cy", d => y2(+d.SF_12_10)) // Y-coordinate: SF-12 value
+                .attr("cy", d => y2(+d.prop_10)) // Y-coordinate: SF-12 value
                 .attr("r", 5) // Radius of the dots
                 .style("fill", groupColors["prop_10"]) // Set dot color
                 .on('mouseover', (event, d) => { // Show tooltip on mouseover
