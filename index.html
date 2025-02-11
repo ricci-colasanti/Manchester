@@ -207,6 +207,53 @@
             .attr("text-anchor", "middle")
             .text("Mean Change"); // Label text
 
+
+        // Add X-axis grid lines for svg1
+        svg1.append("g")
+            .attr("class", "x-grid")
+            .attr("transform", `translate(0,${height})`) // Position at the bottom
+            .call(d3.axisBottom(x)
+                .tickSize(-height) // Make the ticks span the entire height
+                .tickFormat("") // Remove tick labels
+            )
+            .selectAll("line") // Select all grid lines
+            .attr("stroke", "white") // Set grid line color
+            .attr("stroke-width", 1); // Set grid line thickness
+
+        // Add Y-axis grid lines for svg1
+        svg1.append("g")
+            .attr("class", "y-grid")
+            .call(d3.axisLeft(y1)
+                .tickSize(-width) // Make the ticks span the entire width
+                .tickFormat("") // Remove tick labels
+            )
+            .selectAll("line") // Select all grid lines
+            .attr("stroke", "white") // Set grid line color
+            .attr("stroke-width", 1); // Set grid line thickness
+
+        // Add X-axis grid lines for svg2
+        svg2.append("g")
+            .attr("class", "x-grid")
+            .attr("transform", `translate(0,${height})`) // Position at the bottom
+            .call(d3.axisBottom(x)
+                .tickSize(-height) // Make the ticks span the entire height
+                .tickFormat("") // Remove tick labels
+            )
+            .selectAll("line") // Select all grid lines
+            .attr("stroke", "white") // Set grid line color
+            .attr("stroke-width", 1); // Set grid line thickness
+
+        // Add Y-axis grid lines for svg2
+        svg2.append("g")
+            .attr("class", "y-grid")
+            .call(d3.axisLeft(y2)
+                .tickSize(-width) // Make the ticks span the entire width
+                .tickFormat("") // Remove tick labels
+            )
+            .selectAll("line") // Select all grid lines
+            .attr("stroke", "white") // Set grid line color
+            .attr("stroke-width", 1); // Set grid line thickness            
+
         // Variables to store data and chart elements
         let meanData1, stdData1, meanData2, stdData2; // Data from CSV files
         let allGroup, menGroup, groupColors; // Groups and their corresponding colors
@@ -228,10 +275,10 @@
             d3.csv("Results/combined_summary_grouped_std.csv"), // Load std data for chart 1
             d3.csv(
                 "Results/combined_summary_UC_families_men_illness_risk_mean.csv"
-                ), // Load mean data for chart 2 (replace with your own dataset)
+            ), // Load mean data for chart 2 (replace with your own dataset)
             d3.csv(
                 "Results/combined_summary_UC_families_men_illness_risk_std.csv"
-                ) // Load std data for chart 2 (replace with your own dataset)
+            ) // Load std data for chart 2 (replace with your own dataset)
         ]).then(([mean1, std1, mean2, std2]) => {
             // Store the loaded data
             meanData1 = mean1;
