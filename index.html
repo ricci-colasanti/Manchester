@@ -122,12 +122,27 @@
             .append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`); // Apply margins to the inner group
 
+        // Add a light gray background to the plotting area for svg1
+        svg1.append("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", width)
+            .attr("height", height)
+            .attr("fill", "#f0f0f0"); // Light gray color
+
         const svg2 = chartContainer2.append("svg")
             .attr("width", width + margin.left + margin.right) // Set SVG width
             .attr("height", height + margin.top + margin.bottom) // Set SVG height
             .append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`); // Apply margins to the inner group
 
+        // Add a light gray background to the plotting area for svg2
+        svg2.append("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", width)
+            .attr("height", height)
+            .attr("fill", "#f0f0f0"); // Light gray color
         // Define the X scale (linear scale for years)
         const x = d3.scaleLinear()
             .domain([2020, 2036]) // Data range: years from 2020 to 2036
@@ -212,9 +227,11 @@
             d3.csv("Results/combined_summary_grouped_mean.csv"), // Load mean data for chart 1
             d3.csv("Results/combined_summary_grouped_std.csv"), // Load std data for chart 1
             d3.csv(
-            "Results/combined_summary_UC_families_men_illness_risk_mean.csv"), // Load mean data for chart 2 (replace with your own dataset)
+                "Results/combined_summary_UC_families_men_illness_risk_mean.csv"
+                ), // Load mean data for chart 2 (replace with your own dataset)
             d3.csv(
-            "Results/combined_summary_UC_families_men_illness_risk_std.csv") // Load std data for chart 2 (replace with your own dataset)
+                "Results/combined_summary_UC_families_men_illness_risk_std.csv"
+                ) // Load std data for chart 2 (replace with your own dataset)
         ]).then(([mean1, std1, mean2, std2]) => {
             // Store the loaded data
             meanData1 = mean1;
@@ -227,7 +244,8 @@
             const colorScale = (group) => {
                 const colors = [
                     "#440154FF", "#482173FF", "#433E85FF", "#38598CFF", "#2D708EFF", "#25858EFF",
-                    "#1E9B8AFF", "#2BB07FFF", "#51C56AFF", "#85D54AFF", "#C2DF23FF", "#FDE725FF"
+                    "#1E9B8AFF", "#2BB07FFF", "#51C56AFF", "#85D54AFF", "#C2DF23FF", "#FDE725FF",
+                    "#FDE725FF"
                 ];
 
                 const index = allGroup.indexOf(group);
@@ -235,7 +253,7 @@
             };
 
             groupColors = Object.fromEntries(allGroup.map(group => [group, colorScale(
-            group)])); // Map groups to colors
+                group)])); // Map groups to colors
 
 
 
