@@ -136,7 +136,7 @@ class HealthImpactChartMultiLine {
 
             // Update the line
             this.line[index]
-                .data(dataFilter)
+                .datum(dataFilter)
                 .transition().duration(500)
                 .attr("d", d3.line()
                     .x(d => this.x(+d[this.xFeature]))
