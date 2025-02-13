@@ -110,7 +110,7 @@ class HealthImpactChartMultiLine {
                 .style("fill", this.color)
                 .on('mouseover', (event, d) => {
                     this.tooltip.style("opacity", 1)
-                        .html(`Value: ${d3.format('.2r')(d[group[0]])}`)
+                        .html(`Value: ${d3.format('.2r')((d.value))}`)
                         .style("left", `${event.pageX + 5}px`)
                         .style("top", `${event.pageY - 20}px`);
                 })
