@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <!-- D3.js -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <style>
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            width: 120px;
+            padding: 5px;
+            font: 12px sans-serif;
+            background: rgba(210, 210, 210, 0.9);
+            border-radius: 5px;
+            pointer-events: none;
+            opacity: 0.1;
+        }
+
+    </style>
+    <script src="js/HealthImpactChart.js"></script>
+</head>
+
+<body>
+    <div class="tooltip"></div>
+    <div id="chart1" class="col"></div>
+    <div class="slider-container">
+        <input id="slider" type="range" value="0" class="form-range" min="0" max="12" step="1"
+            oninput="selectSf(this.value)">
+        <div class="ticks">
+            <span>10</span>
+            <span>20</span>
+            <span>30</span>
+            <span>40</span>
+            <span>50</span>
+            <span>60</span>
+            <span>70</span>
+            <span>80</span>
+            <span>90</span>
+            <span>100</span>
+            <span>110</span>
+            <span>120</span>
+            <span>130</span>
+        </div>
+    </div>
+    <!-- <script href="js/singelgraph.js"></script> -->
+    <script>
+
+
+
+
+
+
+
+
+        // Usage Example
+const allGroup = [
+    "SF_12_10", "SF_12_20", "SF_12_30", "SF_12_40", "SF_12_50", "SF_12_60",
+    "SF_12_70", "SF_12_80", "SF_12_90", "SF_12_100", "SF_12_110", "SF_12_120", "SF_12_130"
+];
+
+
+const colors = ["#440154FF", "#481668FF", "#482878FF", "#443A83FF", "#3E4A89FF",
+                     "#375A8CFF", "#31688EFF", "#2B758EFF", "#26828EFF", "#21908CFF", "#1F9E89FF",
+                     "#25AB82FF", "#35B779FF", "#4EC36BFF", "#6DCD59FF", "#8FD744FF", "#B4DE2CFF",
+                     "#DAE319FF", "#FDE725FF"
+                ];
+// Create an instance of the chart
+// containerId, meanFile, stdFile, allGroup,xFeature, color,xAxisLable,yAxisLable
+const chart1 = new HealthImpactChart(
+    "chart1",
+    "Results/combined_summary_grouped_mean.csv",
+    "Results/combined_summary_grouped_std.csv",
+    allGroup,
+    'year',
+    'green',
+    'Year',
+    'SF'
+);
+
+
+function selectSf(value) {
+            const selectedGroup = allGroup[value]; // Get the selected group
+            chart1.update(selectedGroup); // Update the chart with the selected group
+        }
+    </script>
+</body>
+</html>
