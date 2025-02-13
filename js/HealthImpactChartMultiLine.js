@@ -89,14 +89,14 @@ class HealthImpactChartMultiLine {
                     .x(d => this.x(+d[this.xFeature]))
                     .y(d => this.y(+d[group[0]]))
                 )
-                .attr("stroke", this.color)
+                .attr("stroke", this.color[index])
                 .style("stroke-width", 1)
                 .style("fill", "none");
 
             // Area for the group
             const area = this.svg.append("path")
                 .attr("class", "area")
-                .style("fill", this.color)
+                .style("fill", this.color[index])
                 .style("opacity", 0.2);
 
             // Dots for the group
@@ -107,7 +107,7 @@ class HealthImpactChartMultiLine {
                 .attr("cx", d => this.x(+d[this.xFeature]))
                 .attr("cy", d => this.y(+d[group[0]]))
                 .attr("r", 3)
-                .style("fill", this.color)
+                .style("fill", this.color[index])
                 .on('mouseover', (event, d) => {
                     this.tooltip.style("opacity", 1)
                         .html(`Value: ${d3.format('.2r')(d.value)}`)
@@ -142,7 +142,7 @@ class HealthImpactChartMultiLine {
                     .x(d => this.x(+d[this.xFeature]))
                     .y(d => this.y(+d.value))
                 )
-                .style("stroke", color);
+                .style("stroke", color[index]);
 
             // Update the area
             this.area[index]
@@ -153,7 +153,7 @@ class HealthImpactChartMultiLine {
                     .y0(d => this.y(+d.value - d.std * 1.0))
                     .y1(d => this.y(+d.value + d.std * 1.0))
                 )
-                .style("fill", color);
+                .style("fill", color[index]);
 
             // Update the dots
             this.dot[index]
@@ -161,7 +161,7 @@ class HealthImpactChartMultiLine {
                 .transition().duration(500)
                 .attr("cx", d => this.x(+d[this.xFeature]))
                 .attr("cy", d => this.y(+d.value))
-                .style("fill", color);
+                .style("fill", color[index]);
         });
     }
 }
