@@ -106,11 +106,11 @@ class HealthImpactChartMultiLine {
                 .attr("class", `dot-${index}`)
                 .attr("cx", d => this.x(+d[this.xFeature]))
                 .attr("cy", d => this.y(+d[group[0]]))
-                .attr("r", 5)
+                .attr("r", 3)
                 .style("fill", this.color)
                 .on('mouseover', (event, d) => {
                     this.tooltip.style("opacity", 1)
-                        .html(`Value: ${d3.format('.2r')((d.value))}`)
+                        .html(`Value: ${d3.format('.2r')(d.value)}`)
                         .style("left", `${event.pageX + 5}px`)
                         .style("top", `${event.pageY - 20}px`);
                 })
