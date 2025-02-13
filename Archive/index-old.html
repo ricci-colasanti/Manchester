@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dual Graphs with Slider 2</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <!-- D3.js -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <style>
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            width: 120px;
+            padding: 5px;
+            font: 12px sans-serif;
+            background: rgba(210, 210, 210, 0.9);
+            border-radius: 5px;
+            pointer-events: none;
+            opacity: 0.1;
+        }
+
+        #slider {
+            width: 100%;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        #SFLevel {
+            margin-left: 30px;
+        }
+
+        .slider-container {
+            position: relative;
+            width: 80%;
+            /* Adjust as needed */
+            margin-left: 100px;
+
+        }
+
+        .ticks {
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            width: 100%;
+            top: 20px;
+            /* Adjust to position ticks below the slider */
+        }
+
+        .ticks span {
+            padding-top: 10px;
+            font-size: 10px;
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tooltip"></div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-sm-6">
+                <div id="chart1" class="col"></div>
+                <div id="SFLevel">10 Pounds</div>
+                <div class="slider-container">
+                    <input id="slider" type="range" value="0" class="form-range" min="0" max="12" step="1"
+                        oninput="selectSf(this.value)">
+                    <div class="ticks">
+                        <span>10</span>
+                        <span>20</span>
+                        <span>30</span>
+                        <span>40</span>
+                        <span>50</span>
+                        <span>60</span>
+                        <span>70</span>
+                        <span>80</span>
+                        <span>90</span>
+                        <span>100</span>
+                        <span>110</span>
+                        <span>120</span>
+                        <span>130</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 50px;">
+            <div class="col-sm-6">
+                <div id="chart2" class="chart"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Initialize the slider value to 0
+        document.getElementById('slider').value = 0;
+
+        // Define margins for the chart (top, right, bottom, left)
+        const margin = {
+            top: 10,
+            right: 30,
+            bottom: 50,
+            left: 80
+        };
+
+        // Select the chart containers and calculate their width and height
+        const chartContainer1 = d3.select("#chart1");
+        const chartContainer2 = d3.select("#chart2");
+        const width = chartContainer1.node().clientWidth - margin.left - margin.right; // Width of the chart area
+        const height = width * 0.6; // Height is 60% of the width
+
+        // Select the tooltip element for later use
+        const tooltip = d3.select(".tooltip");
+
+        // Create SVG elements inside the chart containers
+        const svg1 = chartContainer1.append("svg")
+            .attr("width", width + margin.left + margin.right) // Set SVG width
+            .attr("height", height + margin.top + margin.bottom) // Set SVG height
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`); // Apply margins to the inner group
+
+        // // Add a light gray background to the plotting area for svg1
+        // svg1.append("rect")
+        //     .attr("x", 0)
+        //     .attr("y", 0)
+        //     .attr("width", width)
+        //     .attr("height", height)
+        //     .attr("fill", "#f0f0f0"); // Light gray color
+
+        const svg2 = chartContainer2.append("svg")
+            .attr("width", width + margin.left + margin.right) // Set SVG width
+            .attr("height", height + margin.top + margin.bottom) // Set SVG height
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`); // Apply margins to the inner group
+
+        // Add a light gray background to the plotting area for svg2
+        // svg2.append("rect")
+        //     .attr("x", 0)
+        //     .attr("y", 0)
+        //     .attr("width", width)
+        //     .attr("height", height)
+        //     .attr("fill", "#f0f0f0"); // Light gray color
+        // Define the X scale (linear scale for years)
+        const x = d3.scaleLinear()
+            .domain([2020, 2036]) // Data range: years from 2020 to 2036
+            .range([0, width]); // Map to the width of the chart
+
+        // Define the Y scale (linear scale for SF-12 values)
+        const y1 = d3.scaleLinear()
+            .domain([0, 2.6]) // Data range: SF-12 values from 0 to 2.6
+            .range([height, 0]); // Map to the height of the chart (inverted for Y-axis)
+
+
+        const y2 = d3.scaleLinear()
+            .domain([-0.20, 0]) // Data range: SF-12 values from 0 to 2.6
+            .range([height, 0]); // Map to the height of the chart (inverted for Y-axis)
+
+        // Create the X-axis with formatted ticks (remove commas from year labels)
+        const xAxis = d3.axisBottom(x).tickFormat(d => d.toString().replace(',', ''));
+        svg1.append("g")
+            .attr("transform", `translate(0,${height})`) // Position the X-axis at the bottom
+            .attr("class", "x-axis")
+            .call(xAxis); // Render the X-axis
+
+        svg2.append("g")
+            .attr("transform", `translate(0,${height})`) // Position the X-axis at the bottom
+            .attr("class", "x-axis")
+            .call(xAxis); // Render the X-axis
+
+        // Add a label for the X-axis
+        svg1.append("text")
+            .attr("x", width / 2) // Center the label horizontally
+            .attr("y", height + 40) // Position the label below the X-axis
+            .attr("text-anchor", "middle")
+            .text("Year"); // Label text
+
+        svg2.append("text")
+            .attr("x", width / 2) // Center the label horizontally
+            .attr("y", height + 40) // Position the label below the X-axis
+            .attr("text-anchor", "middle")
+            .text("Year"); // Label text
+
+        // Create the Y-axis
+        svg1.append("g")
+            .attr("class", "y-axis")
+            .call(d3.axisLeft(y1)); // Render the Y-axis on the left
+
+        svg2.append("g")
+            .attr("class", "y-axis")
+            .call(d3.axisLeft(y2)); // Render the Y-axis on the left
+
+        // Add a label for the Y-axis
+        svg1.append("text")
+            .attr("transform", "rotate(-90)") // Rotate the label vertically
+            .attr("x", -height / 2) // Position the label vertically centered
+            .attr("y", -60) // Adjust horizontal position
+            .attr("text-anchor", "middle")
+            .text("Mean SF-12 Change"); // Label text
+
+        svg2.append("text")
+            .attr("transform", "rotate(-90)") // Rotate the label vertically
+            .attr("x", -height / 2) // Position the label vertically centered
+            .attr("y", -60) // Adjust horizontal position
+            .attr("text-anchor", "middle")
+            .text("Mean Change"); // Label text
+
+
+        // // Add X-axis grid lines for svg1
+        // svg1.append("g")
+        //     .attr("class", "x-grid")
+        //     .attr("transform", `translate(0,${height})`) // Position at the bottom
+        //     .call(d3.axisBottom(x)
+        //         .tickSize(-height) // Make the ticks span the entire height
+        //         .tickFormat("") // Remove tick labels
+        //     )
+        //     .selectAll("line") // Select all grid lines
+        //     .attr("stroke", "white") // Set grid line color
+        //     .attr("stroke-width", 1); // Set grid line thickness
+
+        // // Add Y-axis grid lines for svg1
+        // svg1.append("g")
+        //     .attr("class", "y-grid")
+        //     .call(d3.axisLeft(y1)
+        //         .tickSize(-width) // Make the ticks span the entire width
+        //         .tickFormat("") // Remove tick labels
+        //     )
+        //     .selectAll("line") // Select all grid lines
+        //     .attr("stroke", "white") // Set grid line color
+        //     .attr("stroke-width", 1); // Set grid line thickness
+
+        // // Add X-axis grid lines for svg2
+        // svg2.append("g")
+        //     .attr("class", "x-grid")
+        //     .attr("transform", `translate(0,${height})`) // Position at the bottom
+        //     .call(d3.axisBottom(x)
+        //         .tickSize(-height) // Make the ticks span the entire height
+        //         .tickFormat("") // Remove tick labels
+        //     )
+        //     .selectAll("line") // Select all grid lines
+        //     .attr("stroke", "white") // Set grid line color
+        //     .attr("stroke-width", 1); // Set grid line thickness
+
+        // // Add Y-axis grid lines for svg2
+        // svg2.append("g")
+        //     .attr("class", "y-grid")
+        //     .call(d3.axisLeft(y2)
+        //         .tickSize(-width) // Make the ticks span the entire width
+        //         .tickFormat("") // Remove tick labels
+        //     )
+        //     .selectAll("line") // Select all grid lines
+        //     .attr("stroke", "white") // Set grid line color
+        //     .attr("stroke-width", 1); // Set grid line thickness            
+
+        // Variables to store data and chart elements
+        let meanData1, stdData1, meanData2, stdData2; // Data from CSV files
+        let allGroup, menGroup, groupColors; // Groups and their corresponding colors
+        let line1, dot1, area1, line2, dot2, area2; // Chart elements: line, dots, and area for standard deviation
+
+        // Define all groups (SF-12 categories)
+        allGroup = [
+            "SF_12_10", "SF_12_20", "SF_12_30", "SF_12_40", "SF_12_50", "SF_12_60",
+            "SF_12_70", "SF_12_80", "SF_12_90", "SF_12_100", "SF_12_110", "SF_12_120", "SF_12_130"
+        ];
+
+
+        menGroup = ["prop_10", "prop_20", "prop_30", "prop_40", "prop_50", "prop_60", "prop_70",
+            "prop_80", "prop_90", "prop_100", "prop_110", "prop_120", "prop_130"
+        ]
+        // Load data from CSV files asynchronously
+        Promise.all([
+            d3.csv("Results/combined_summary_grouped_mean.csv"), // Load mean data for chart 1
+            d3.csv("Results/combined_summary_grouped_std.csv"), // Load std data for chart 1
+            d3.csv(
+                "Results/combined_summary_UC_families_men_illness_risk_mean.csv"
+            ), // Load mean data for chart 2 (replace with your own dataset)
+            d3.csv(
+                "Results/combined_summary_UC_families_men_illness_risk_std.csv"
+            ) // Load std data for chart 2 (replace with your own dataset)
+        ]).then(([mean1, std1, mean2, std2]) => {
+            // Store the loaded data
+            meanData1 = mean1;
+            stdData1 = std1;
+            meanData2 = mean2;
+            stdData2 = std2;
+
+            // Create a color scale for the groups
+            //      const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+            const colorScale = (group) => {
+                
+                    // "#440154FF" ,"#481F70FF", "#443A83FF", "#3B528BFF", "#31688EFF", "#287C8EFF", 
+                    // "#21908CFF" ,"#20A486FF" ,"#35B779FF" ,"#5DC863FF", "#8FD744FF", "#C7E020FF", 
+                    // "#FDE725FF"
+                   
+                    const colors = ["#440154FF", "#481668FF", "#482878FF", "#443A83FF", "#3E4A89FF",
+                     "#375A8CFF", "#31688EFF", "#2B758EFF", "#26828EFF", "#21908CFF", "#1F9E89FF",
+                     "#25AB82FF", "#35B779FF", "#4EC36BFF", "#6DCD59FF", "#8FD744FF", "#B4DE2CFF",
+                     "#DAE319FF", "#FDE725FF"
+                ];
+
+                const index = allGroup.indexOf(group);
+                return index !== -1 ? colors[index] : "#CCCCCC";
+            };
+
+            groupColors = Object.fromEntries(allGroup.map(group => [group, colorScale(
+                group)])); // Map groups to colors
+
+
+
+            // Initialize the line chart for the first group (SF_12_10)
+            line1 = svg1.append("path")
+                .datum(meanData1) // Bind mean data to the line
+                .attr("d", d3.line() // Define the line path
+                    .x(d => x(+d.year)) // X-coordinate: year
+                    .y(d => y1(+d.SF_12_10)) // Y-coordinate: SF-12 value
+                )
+                .attr("stroke", groupColors["SF_12_10"]) // Set line color
+                .style("stroke-width", 1) // Set line width
+                .style("fill", "none"); // No fill for the line
+
+            line2 = svg2.append("path")
+                .datum(meanData2) // Bind mean data to the line
+                .attr("d", d3.line() // Define the line path
+                    .x(d => x(+d.year)) // X-coordinate: year
+                    .y(d => y2(+d.prop_10)) // Y-coordinate: SF-12 value
+                )
+                .attr("stroke", groupColors["prop_10"]) // Set line color
+                .style("stroke-width", 1) // Set line width
+                .style("fill", "none"); // No fill for the line
+
+            // Initialize the area chart for standard deviation
+            area1 = svg1.append("path")
+                .attr("class", "area")
+                .style("fill", groupColors["SF_12_10"] * 1.0) // Set area color
+                .style("opacity", 0.2); // Set area opacity
+
+            area2 = svg2.append("path")
+                .attr("class", "area")
+                .style("fill", groupColors["prop_10"] * 1.0) // Set area color
+                .style("opacity", 0.2); // Set area opacity
+
+            // Initialize dots for data points
+            dot1 = svg1.selectAll("circle")
+                .data(meanData1) // Bind mean data to the dots
+                .join("circle") // Create circles for each data point
+                .attr("cx", d => x(+d.year)) // X-coordinate: year
+                .attr("cy", d => y1(+d.SF_12_10)) // Y-coordinate: SF-12 value
+                .attr("r", 5) // Radius of the dots
+                .style("fill", groupColors["SF_12_10"]) // Set dot color
+                .on('mouseover', (event, d) => { // Show tooltip on mouseover
+                    tooltip.style("opacity", 1)
+                        .html(`Sf _12: ${d3.format('.2r')(d.value)}`) // Tooltip content
+                        .style("left", `${event.pageX + 5}px`) // Position tooltip
+                        .style("top", `${event.pageY - 20}px`);
+                })
+                .on("mousemove", event => { // Move tooltip with mouse
+                    tooltip.style("left", `${event.pageX + 5}px`)
+                        .style("top", `${event.pageY - 20}px`);
+                })
+                .on("mouseout", () => tooltip.style("opacity", 0)); // Hide tooltip on mouseout
+
+            dot2 = svg2.selectAll("circle")
+                .data(meanData2) // Bind mean data to the dots
+                .join("circle") // Create circles for each data point
+                .attr("cx", d => x(+d.year)) // X-coordinate: year
+                .attr("cy", d => y2(+d.prop_10)) // Y-coordinate: SF-12 value
+                .attr("r", 5) // Radius of the dots
+                .style("fill", groupColors["prop_10"]) // Set dot color
+                .on('mouseover', (event, d) => { // Show tooltip on mouseover
+                    tooltip.style("opacity", 1)
+                        .html(`prop: ${d3.format('.2r')(d.value)}`) // Tooltip content
+                        .style("left", `${event.pageX + 5}px`) // Position tooltip
+                        .style("top", `${event.pageY - 20}px`);
+                })
+                .on("mousemove", event => { // Move tooltip with mouse
+                    tooltip.style("left", `${event.pageX + 5}px`)
+                        .style("top", `${event.pageY - 20}px`);
+                })
+                .on("mouseout", () => tooltip.style("opacity", 0)); // Hide tooltip on mouseout
+
+            // Initialize the chart with the first group (SF_12_10)
+            update('SF_12_10', 'prop_10');
+        });
+
+        // Function to handle slider changes
+        function selectSf(value) {
+            const selectedGroup = allGroup[value]; // Get the selected group
+            const selectedSeconGroup = menGroup[value];
+            update(selectedGroup, selectedSeconGroup); // Update the chart with the selected group
+            const money = (parseInt(value) + 1) * 10; // Calculate the money value
+            document.getElementById('SFLevel').innerHTML = `${money} Pounds`; // Update the displayed money value
+        }
+
+        // Function to update the chart based on the selected group
+        function update(selectedGroup, selectedSeconGroup) {
+            // Filter and map the data for the selected group
+            const dataFilter1 = meanData1.map(d => ({
+                year: d.year, // Year
+                value: d[selectedGroup], // SF-12 value for the selected group
+                std: stdData1.find(sd => sd.year === d.year)[
+                    selectedGroup] // Standard deviation for the selected group
+            }));
+
+            const dataFilter2 = meanData2.map(d => ({
+                year: d.year, // Year
+                value: d[selectedSeconGroup], // SF-12 value for the selected group
+                std: stdData2.find(sd => sd.year === d.year)[
+                    selectedSeconGroup] // Standard deviation for the selected group
+            }));
+
+            // Update the line chart for chart 1
+            line1.datum(dataFilter1)
+                .transition().duration(500) // Smooth transition
+                .attr("d", d3.line() // Redefine the line path
+                    .x(d => x(+d.year))
+                    .y(d => y1(+d.value))
+                )
+                .style("stroke", groupColors[selectedGroup]); // Update line color
+
+            // Update the line chart for chart 2
+            line2.datum(dataFilter2)
+                .transition().duration(500) // Smooth transition
+                .attr("d", d3.line() // Redefine the line path
+                    .x(d => x(+d.year))
+                    .y(d => y2(+d.value))
+                )
+                .style("stroke", groupColors[selectedGroup]); // Update line color
+
+            // Update the area chart (standard deviation) for chart 1
+            area1.datum(dataFilter1)
+                .transition().duration(500) // Smooth transition
+                .attr("d", d3.area() // Redefine the area path
+                    .x(d => x(+d.year))
+                    .y0(d => y1(+d.value - d.std * 1.0)) // Lower bound (mean - std)
+                    .y1(d => y1(+d.value + d.std * 1.0)) // Upper bound (mean + std)
+                )
+                .style("fill", groupColors[selectedGroup]); // Update area color
+
+            // Update the area chart (standard deviation) for chart 2
+            area2.datum(dataFilter2)
+                .transition().duration(500) // Smooth transition
+                .attr("d", d3.area() // Redefine the area path
+                    .x(d => x(+d.year))
+                    .y0(d => y2(+d.value - d.std * 1.0)) // Lower bound (mean - std)
+                    .y1(d => y2(+d.value + d.std * 1.0)) // Upper bound (mean + std)
+                )
+                .style("fill", groupColors[selectedGroup]); // Update area color
+
+            // Update the dots for chart 1
+            dot1.data(dataFilter1)
+                .transition().duration(500) // Smooth transition
+                .attr("cx", d => x(+d.year)) // Update X-coordinate
+                .attr("cy", d => y1(+d.value)) // Update Y-coordinate
+                .style("fill", groupColors[selectedGroup]); // Update dot color
+
+            // Update the dots for chart 2
+            dot2.data(dataFilter2)
+                .transition().duration(500) // Smooth transition
+                .attr("cx", d => x(+d.year)) // Update X-coordinate
+                .attr("cy", d => y2(+d.value)) // Update Y-coordinate
+                .style("fill", groupColors[selectedGroup]); // Update dot color
+        }
+    </script>
+</body>
+
+</html>

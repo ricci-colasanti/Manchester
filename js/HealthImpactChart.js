@@ -12,9 +12,9 @@ class HealthImpactChart {
         this.stdData = [];
         this.xRange = xRange;
         this.yRange = yRange;
-        this.line = null;
-        this.dot = null;
-        this.area = null;
+        this.line = [];
+        this.dot = [];
+        this.area = [];
         
 
         this.margin = { top: 10, right: 30, bottom: 50, left: 80 };
@@ -84,7 +84,7 @@ class HealthImpactChart {
 
     initializeChart() {
         this.line = this.svg.append("path")
-            .datum(this.meanData)
+            .data(this.meanData)
             .attr("d", d3.line()
                 .x(d => this.x(+d[this.xFeature]))
                 .y(d => this.y(+d[this.allGroup[0]]))
