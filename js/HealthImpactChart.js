@@ -1,5 +1,5 @@
 class HealthImpactChart {
-    constructor(containerId, meanFile, stdFile, allGroup,xFeature, color,xAxisLable,yAxisLable) {
+    constructor(containerId, meanFile, stdFile, allGroup,xFeature, color,xAxisLable,yAxisLable, xRange,yRange) {
         this.containerId = containerId;
         this.meanFile = meanFile;
         this.stdFile = stdFile;
@@ -10,6 +10,8 @@ class HealthImpactChart {
         this.xFeature = xFeature;
         this.meanData = [];
         this.stdData = [];
+        this.xRange = xRange;
+        this.yRange = yRange;
         this.line = null;
         this.dot = null;
         this.area = null;
@@ -27,11 +29,11 @@ class HealthImpactChart {
             .attr("transform", `translate(${this.margin.left},${this.margin.top})`);
 
         this.x = d3.scaleLinear()
-            .domain([2020, 2036])
+            .domain(this.xRange)
             .range([0, this.width]);
 
         this.y = d3.scaleLinear()
-            .domain([0, 2.6])
+            .domain(this.yRange)
             .range([this.height, 0]);
 
         this.tooltip = d3.select(".tooltip");
@@ -73,13 +75,8 @@ class HealthImpactChart {
         ]).then(([meanData, stdData]) => {
             this.meanData = meanData;
             this.stdData = stdData;
-            console.log(this.meanData);
-            
             this.initializeChart();
-            console.log(this.allGroup[0]);
-        
-            this.update(this.allGroup[0]);
-
+            this.update(this.allGroup[0],this.color);
         }).catch(error => {
             console.error("Error loading data:", error);
         });
@@ -104,7 +101,7 @@ class HealthImpactChart {
         this.dot = this.svg.selectAll("circle")
             .data(this.meanData)
             .join("circle")
-            .attr("cx", d => this.x(+this.x(+d[this.xFeature])))
+            .attr("cx", d => this.x(+d[this.xFeature]))
             .attr("cy", d => this.y(+d[this.allGroup[0]]))
             .attr("r", 5)
             .style("fill", this.color)
@@ -121,7 +118,7 @@ class HealthImpactChart {
             .on("mouseout", () => this.tooltip.style("opacity", 0));
     }
 
-    update(selectedGroup) {
+    update(selectedGroup,color ) {
         const dataFilter = this.meanData.map(d => ({
             year: d.year,
             value: d[selectedGroup],
@@ -134,6 +131,7 @@ class HealthImpactChart {
                 .x(d => this.x(+d[this.xFeature]))
                 .y(d => this.y(+d.value))
             )
+            .style("stroke",color)
             
 
         this.area.datum(dataFilter)
@@ -143,11 +141,14 @@ class HealthImpactChart {
                 .y0(d => this.y(+d.value - d.std * 1.0))
                 .y1(d => this.y(+d.value + d.std * 1.0))
             )
-            
+            .
+            style("fill", color)
+
         this.dot.data(dataFilter)
             .transition().duration(500)
             .attr("cx", d => this.x(+d[this.xFeature]))
             .attr("cy", d => this.y(+d.value))
+            .style("fill", color)
            
     }
 }

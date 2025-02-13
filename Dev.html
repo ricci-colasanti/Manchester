@@ -78,15 +78,17 @@ const chart1 = new HealthImpactChart(
     "Results/combined_summary_grouped_std.csv",
     allGroup,
     'year',
-    'green',
+    colors[0],
     'Year',
-    'SF'
+    'SF',
+    [2020, 2036],
+    [0, 2.6]
 );
 
 
 function selectSf(value) {
             const selectedGroup = allGroup[value]; // Get the selected group
-            chart1.update(selectedGroup); // Update the chart with the selected group
+            chart1.update(selectedGroup,colors[value]); // Update the chart with the selected group
         }
     </script>
 </body>

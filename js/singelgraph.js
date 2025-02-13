@@ -22,7 +22,7 @@ class HealthImpactChart {
             .attr("transform", `translate(${this.margin.left},${this.margin.top})`);
 
         this.x = d3.scaleLinear()
-            .domain([2020, 2036])
+            .domain()
             .range([0, this.width]);
 
         this.y = d3.scaleLinear()
