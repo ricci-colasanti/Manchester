@@ -1,8 +1,8 @@
-class HealthImpactChartMultiLine {
-    constructor(containerId, meanFile, stdFile, allGroup, xFeature, color, xAxisLable, yAxisLable, xRange, yRange) {
+console.log("PAssdata");
+
+class HealthImpactChartPassData {
+    constructor(containerId, meanData, stdData, allGroup, xFeature, color, xAxisLable, yAxisLable, xRange, yRange) {
         this.containerId = containerId;
-        this.meanFile = meanFile;
-        this.stdFile = stdFile;
         this.allGroup = allGroup;
         this.color = color;
         this.xAxisLable = xAxisLable;
@@ -38,7 +38,10 @@ class HealthImpactChartMultiLine {
         this.tooltip = d3.select(".tooltip");
 
         this.initializeAxes();
-        this.loadDataAndInitializeChart();
+        this.meanData = meanData;
+        this.stdData = stdData;
+        this.initializeChart();
+        this.update(0, this.color);
     }
 
     initializeAxes() {
@@ -66,19 +69,6 @@ class HealthImpactChartMultiLine {
             .text(this.yAxisLable);
     }
 
-    loadDataAndInitializeChart() {
-        Promise.all([
-            d3.csv(this.meanFile),
-            d3.csv(this.stdFile),
-        ]).then(([meanData, stdData]) => {
-            this.meanData = meanData;
-            this.stdData = stdData;
-            this.initializeChart();
-            this.update(0, this.color);
-        }).catch(error => {
-            console.error("Error loading data:", error);
-        });
-    }
 
     initializeChart() {
         this.allGroup.forEach((group, index) => {
