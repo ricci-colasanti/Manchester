@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page 1</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <!-- D3.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script><!-- D3.js -->
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="js/HealthImpactChartMultiLine.js"></script>
     <script src="js/HealthImpactChartPassData.js"></script>
@@ -65,26 +66,32 @@
 <body>
     <nav class="navbar navbar-expand-sm bg-light navbar-light">
         <a class="navbar-brand" href="#">
-         <img src="img/Sipher-Consortium-Logo-t.png" alt="Logo" style="width:140px;">
-       </a>
-       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="index.html">Page 1</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="pg02.html">Page 2</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="pg03.html">Page 3</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="pg04.html">Page 4</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="model.html">Model</a>
-        </li>
-      </ul>      
-     </nav>
+          <img src="img/Sipher-Consortium-Logo-t.png" alt="Logo" style="width:140px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Page 1</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pg02.html">Page 2</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pg03.html">Page 3</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pg04.html">Page 4</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="model.html">Model</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
     <div class="tooltip"></div>
     <div class="container mt-5">
         <div class="row">
@@ -115,7 +122,7 @@
                 <div><b>(A) </b> Cumulative: <span id="culamative"></span></div>
                 <div><b>(B) </b> Cost: <span id="cost"></span></div>
                 <div>Coast: <span id="cost"></span></div>
-                <div>Coat effectivness:</div> 
+                <div>Coat effectivness:</div>
                 <div><b>(C) </b>1 ((A)/(B)) *1000: <span id="effect1"></span></div>
                 <div><b>(D) </b>2 (E)*30: <span id="effect2"></span></div>
             </div>
@@ -125,7 +132,7 @@
                 <div id="chart2" class="chart"></div>
             </div>
             <div class="col-sm-6">
-                
+
                 <div><b>(E) </b> Cumulative N: <span id="prop"></span></div>
             </div>
         </div>
@@ -133,10 +140,10 @@
 
 
     <script>
-        function displayNumbers1(value){
+        function displayNumbers1(value) {
             var culamative = combinedSum[group1[0][value]]
             var cost = costSum[group1[0][value]]
-            var effect1 = (culamative/cost) * 1000
+            var effect1 = (culamative / cost) * 1000
             var formattedNum = culamative.toFixed(2);
             var div = document.getElementById('culamative');
             div.innerHTML = formattedNum;
@@ -147,14 +154,15 @@
             div = document.getElementById('effect1');
             div.innerHTML = formattedNum;
         }
-        function displayNumbers2(value){
+
+        function displayNumbers2(value) {
             var culamative = propSum[group2[0][value]]
             var formattedNum = culamative.toFixed(2);
             var div = document.getElementById('prop');
             div.innerHTML = formattedNum;
             var effect2 = culamative * 30
             console.log(effect2);
-            
+
             formattedNum = effect2.toFixed(2);
             div = document.getElementById('effect2');
             div.innerHTML = formattedNum;
@@ -167,8 +175,8 @@
         var combinedSum = {}
         var costSum = {}
         var propSum = {}
- 
-        
+
+
         const group1 = [
             [
                 "SF_12_10", "SF_12_20", "SF_12_30", "SF_12_40", "SF_12_50", "SF_12_60",
@@ -192,13 +200,13 @@
             "#35B779FF", "#25AB82FF", "#1F9E89FF", "#21908CFF", "#26828EFF", "#2B758EFF",
             "#31688EFF", "#375A8CFF", "#3E4A89FF", "#443A83FF", "#482878FF", "#481668FF", "#440154FF"
         ]
- 
+
         Promise.all([
             d3.csv("Results/combined_summary_grouped_mean.csv"),
             d3.csv("Results/combined_summary_grouped_std.csv"),
             d3.csv("Results/combined_summary_grouped_sum.csv"),
             d3.csv("Results/combined_summary_grouped_sum_cost.csv"),
-        ]).then(([meanData, stdData,sumCombined,sumCost]) => {
+        ]).then(([meanData, stdData, sumCombined, sumCost]) => {
             chart1 = new HealthImpactChartPassData(
                 "chart1",
                 meanData,
@@ -211,19 +219,19 @@
                 [2020, 2036],
                 [0, 2.6]
             );
-            for(let i = 0; i< sumCombined.length; i++){
-                  combinedSum[sumCombined[i]["SF_12_0"]]=Number(sumCombined[i]['0'])     
-            } 
+            for (let i = 0; i < sumCombined.length; i++) {
+                combinedSum[sumCombined[i]["SF_12_0"]] = Number(sumCombined[i]['0'])
+            }
 
-            
-            for(let i = 0; i< sumCost.length; i++){
-                costSum[sumCost[i]["SF_12_0"]]=Number(sumCost[i]['0'])     
-            }  
- 
+
+            for (let i = 0; i < sumCost.length; i++) {
+                costSum[sumCost[i]["SF_12_0"]] = Number(sumCost[i]['0'])
+            }
+
             displayNumbers1(0)
-                           
 
-           
+
+
         }).catch(error => {
             console.error("Error loading data:", error);
         });
@@ -238,13 +246,13 @@
         function output() {
             console.log(chart2.sum("SF_12_10"));
         }
-        
+
         Promise.all([
             d3.csv("Results/combined_summary_UC_families_men_illness_risk_mean.csv"),
             d3.csv("Results/combined_summary_UC_families_men_illness_risk_std.csv"),
             d3.csv("Results/combined_summary_UC_families_men_illness_risk_sum.csv"),
             // d3.csv("Results/combined_summary_grouped_sum_cost.csv"),
-        ]).then(([meanData, stdData,sumProp]) => {
+        ]).then(([meanData, stdData, sumProp]) => {
             chart2 = new HealthImpactChartPassData(
                 "chart2",
                 meanData,
@@ -258,24 +266,24 @@
                 [-0.20, 0]
             );
             console.log(sumProp);
-            
-            for(let i = 0; i< sumProp.length; i++){
-                  propSum[sumProp[i]["prop_0"]]=Number(sumProp[i]['0'])     
-            } 
+
+            for (let i = 0; i < sumProp.length; i++) {
+                propSum[sumProp[i]["prop_0"]] = Number(sumProp[i]['0'])
+            }
             console.log(propSum);
-            
+
             // for(let i = 0; i< sumCost.length; i++){
             //     costSum[sumCost[i]["SF_12_0"]]=Number(sumCost[i]['0'])     
             // }  
- 
-            displayNumbers2(0)
-                           
 
-           
+            displayNumbers2(0)
+
+
+
         }).catch(error => {
             console.error("Error loading data:", error);
         });
-        
+
         // new HealthImpactChartMultiLine(
         //     "chart2",
         //     "Results/combined_summary_UC_families_men_illness_risk_mean.csv",
