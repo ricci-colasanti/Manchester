@@ -101,7 +101,7 @@
                 <div class="slider-container">
                     <input id="slider" type="range" value="0" class="form-range" min="0" max="12" step="1"
                         oninput="selectSf(this.value)">
-                    <div class="ticks">
+                    <!-- <div class="ticks">
                         <span>10</span>
                         <span>20</span>
                         <span>30</span>
@@ -115,7 +115,7 @@
                         <span>110</span>
                         <span>120</span>
                         <span>130</span>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="col-sm-6">
@@ -158,7 +158,7 @@
     div.innerHTML = formattedNum;
 
     // Format the cost value to exponential notation and update the HTML element
-    formattedNum = cost.toExponential(2);
+    formattedNum = cost.toFixed(2);
     div = document.getElementById('cost');
     div.innerHTML = formattedNum;
 
