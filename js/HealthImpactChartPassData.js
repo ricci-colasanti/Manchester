@@ -131,7 +131,7 @@ class HealthImpactChartPassData {
                 .style("fill", this.color[index])
                 .on('mouseover', (event, d) => {
                     this.tooltip.style("opacity", 1)
-                        .html(`Value: ${d3.format('.3r')(d.value)}`)
+                        .html(`Value: ${d3.format('.3r')(d.value)} Stdev ${d3.format('.3r')(d.std)}`)
                         .style("left", `${event.pageX + 5}px`)
                         .style("top", `${event.pageY - 20}px`);
                 })
