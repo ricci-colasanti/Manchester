@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Page 4</title>
+  <title>Page 3</title>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
@@ -12,16 +12,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Font Awesome CSS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="css/main.css" rel="stylesheet">
 
-  <style>
-    .col {
-      margin: 10px;
-    }
-
-    p {
-      font-size: xx-large;
-    }
-  </style>
 </head>
 
 <body>
@@ -51,30 +43,42 @@
           <a class="nav-link" href="model.html">Model</a>
         </li>
       </ul>
+
+      <!-- Arrow icon on the far right -->
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="pg05.html"">
+            <i class=" fa fa-arrow-right"></i> <!-- Font Awesome arrow icon -->
+          </a>
+        </li>
+      </ul>
     </div>
   </nav>
+
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-6">
         <div class="r-panel">
-          <h1>Causal</h1>
-
-          <p>
-            Maybe one more slide for MINOS and model structure.
-            Causal loop diagram.
-            Modules structures.
-            Model flowchart etc.
-
-
-
-          </p>
-
+          <div class="d-flex justify-content-center align-items-center">
+            <img src="img/m04b.png" width="80%" alt="workstrand">
+          </div>
+          <div class = "r-list">
+          <p>Counterfactual “What if?” analyses</p>
+          <p>Test policy against baseline predictions</p>
+        </div>
         </div>
       </div>
-      <div class="d-flex justify-content-center align-items-center">
-        <img src="img/m06.png" width="80%" alt="workstrand">
+      <div class="col-sm-6">
+        <div class="d-flex justify-content-center align-items-center">
+          <img src="img/m04a.png" width="80%" alt="workstrand" style="margin-bottom: 10px;">
+        </div>
+        <div class = "r-list">
+        <p>Large heterogeneity in UK population</p>
+        <p>Differing response to policy driven by difference in circumstances</p>
+        </div>
       </div>
     </div>
+  </div>
   </div>
 
 </body>
