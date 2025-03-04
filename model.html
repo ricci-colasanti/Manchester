@@ -7,9 +7,9 @@
     <title>Model</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script><!-- D3.js -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script><!-- D3.js -->
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="js/HealthImpactChartMultiLine.js"></script>
     <script src="js/HealthImpactChartPassData.js"></script>
@@ -72,57 +72,57 @@
             <img src="img/Sipher-Consortium-Logo-t.png" alt="Logo" style="width:140px;">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-          <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
         </button>
-    
+
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">Introduction</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="pg02.html">Why Microsimuation</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="pg03.html">Minos</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="pg04.html">Child Maintaince</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="model.html"><b>Model</b></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="pg05.html">Lone parent</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="pg06.html">Sex Comparisons</a>
-            </li>
-          </ul>
-    
-          <!-- Arrow icon on the far right -->
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="pg05.html"">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Introduction</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="pg02.html">Why Microsimuation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="pg03.html">Minos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="pg04.html">Child Maintaince</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="model.html"><b>Model</b></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="pg05.html">Lone parent</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="pg06.html">Sex Comparisons</a>
+                </li>
+            </ul>
+
+            <!-- Arrow icon on the far right -->
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="pg05.html"">
                 <i class=" fa fa-arrow-right"></i> <!-- Font Awesome arrow icon -->
-              </a>
-            </li>
-          </ul>
+                    </a>
+                </li>
+            </ul>
         </div>
-      </nav>
-    
-    
-    
-      <div class="tooltip"></div>
+    </nav>
 
 
 
-    
-  <div class="container-fluid">
+    <div class="tooltip"></div>
+
+
+
+
+    <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
-                    <div id="chart1" class="chart"   style="margin-top: 5%;"></div>
-   
+                <div id="chart1" class="chart" style="margin-top: 5%;"></div>
+
                 <div class="slider-container" style="margin-left: 25%;padding-right: 10%;">
                     <div id="SFLevel">10 Pounds</div>
                     <input id="slider" type="range" value="0" class="form-range" min="0" max="12" step="1"
@@ -131,244 +131,226 @@
                 </div>
             </div>
             <div class="col-sm-3">
-                <br>
-                <br>
-                <div class="box"> Cumulative SF-12 :<span id="culamative"></span>
+                <div class="box">The 'area under the curve' - cumulative SF-12 MCS​ change for the entire model period (2020 - 2035) 
+                    <div class="cbox" id="culamative"></div>
                 </div>
-                <div class="box">Total Cost * £ 1000 : <span id="cost"></span></div>
+                <div class="box">The total cost of the intervention for the entire model period (2020 - 2035) over the population impacted 
+                    <div class='cbox' id="effect1"></div>
+                </div>
+                <div class="box">The total number of SF-12 MCS units per £1,000 spent for the entire model period (2020 - 2035) 
+                    <div class="cbox" id="prop"></div>
+                </div>
                 <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <div class = "box">Coat effectivness <span id="effect1"></span></div>
-                
             </div>
             <div class="col-sm-3">
-                <br>
-                <br>
-                <p> Explanitory text here?    </p>
-                <!-- <div><b>(A) </b> Cumulative: <span id="culamative"></span></div>
-                <div><b>(B) </b> Cost: <span id="cost"></span></div>
-                <div>Coast: <span id="cost"></span></div>
-                <div>Coat effectivness:</div>
-                <div><b>(C) </b>1 ((A)/(B)) *1000: <span id="effect1"></span></div>
-                <div class="box">Cost reduction :0: <span id="effect2"></span></div> -->
+            
             </div>
         </div>
-        <div class="row" style="padding-top: 50px;">
+        <div class="row"">
             <div class="col-sm-6">
                 <div id="chart2" class="chart"></div>
             </div>
             <div class="col-sm-3">
                 <br>
                 <br>
-                <div class="box">Cumulative N : <span id="prop"></span></div>
-                <div class="box">Cost reduction : <span id="effect2"></span></div>
+                <div class="box">The total number of people no longer at risk of a diagnosis ​of a clinical depressive disorder 
+                    <div class="cbox" id="cost"></div>
+                </div>
+                <div class="box">The potential saving to the health service. This is based on​A cost of £272.50 per patient*. 
+                    <div class="cbox" id="effect2"></div>
+                </div>
             </div>
-            <!-- <div class="col-sm-3">
-                <div><b>(A) </b> Cumulative: <span id="culamative"></span></div>
-                <div><b>(B) </b> Cost: <span id="cost"></span></div>
-                <div>Coast: <span id="cost"></span></div>
-                <div>Coat effectivness:</div>
-                <div><b>(C) </b>1 ((A)/(B)) *1000: <span id="effect1"></span></div>
-                <div><b>(D) </b>2 (E)*30: <span id="effect2"></span></div>
-            </div> -->
         </div>
     </div>
 
 
     <script>
-/**
- * Displays cumulative, cost, and effect values for group 1 based on the selected slider value.
- * @param {number} value - The index of the selected slider value.
- */
- function displayNumbers1(value) {
-    // Retrieve cumulative and cost values from the respective datasets
-    var culamative = combinedSum[group1[0][value]];
-    var cost = costSum[group1[0][value]];
+        /**
+         * Displays cumulative, cost, and effect values for group 1 based on the selected slider value.
+         * @param {number} value - The index of the selected slider value.
+         */
+        function displayNumbers1(value) {
+            // Retrieve cumulative and cost values from the respective datasets
+            var culamative = combinedSum[group1[0][value]];
+            var cost = costSum[group1[0][value]] ;
 
-    // Calculate the effect value (cumulative divided by cost, multiplied by 1000)
-    var effect1 = (culamative / cost) * 1000;
+            // Calculate the effect value (cumulative divided by cost, multiplied by 1000)
+            var effect1 = (culamative / cost) * 1000;
 
-    // Format the cumulative value to 2 decimal places and update the HTML element
-    var formattedNum = culamative.toFixed(2);
-    var div = document.getElementById('culamative');
-    div.innerHTML = formattedNum;
+            // Format the cumulative value to 2 decimal places and update the HTML element
+            var formattedNum = culamative.toFixed(2);
+            var div = document.getElementById('culamative');
+            div.innerHTML = formattedNum;
 
-    // Format the cost value to exponential notation and update the HTML element
-    formattedNum = cost.toFixed(2);
-    div = document.getElementById('cost');
-    div.innerHTML = formattedNum;
+            // Format the cost value to exponential notation and update the HTML element
+            formattedNum = cost.toFixed(2);
+            div = document.getElementById('cost');
+            div.innerHTML = formattedNum;
 
-    // Format the effect value to exponential notation and update the HTML element
-    formattedNum = effect1.toFixed(2);
-    div = document.getElementById('effect1');
-    div.innerHTML = formattedNum;
-}
+            // Format the effect value to exponential notation and update the HTML element
+            formattedNum = effect1.toFixed(2);
+            div = document.getElementById('effect1');
+            div.innerHTML = formattedNum;
+        }
 
-/**
- * Displays cumulative and effect values for group 2 based on the selected slider value.
- * @param {number} value - The index of the selected slider value.
- */
-function displayNumbers2(value) {
-    // Retrieve cumulative value from the respective dataset
-    var culamative = propSum[group2[0][value]];
+        /**
+         * Displays cumulative and effect values for group 2 based on the selected slider value.
+         * @param {number} value - The index of the selected slider value.
+         */
+        function displayNumbers2(value) {
+            // Retrieve cumulative value from the respective dataset
+            var culamative = propSum[group2[0][value]];
 
-    // Format the cumulative value to 2 decimal places and update the HTML element
-    var formattedNum = culamative.toFixed(2);
-    var div = document.getElementById('prop');
-    div.innerHTML = formattedNum;
+            // Format the cumulative value to 2 decimal places and update the HTML element
+            var formattedNum = culamative.toFixed(2);
+            var div = document.getElementById('prop');
+            div.innerHTML = formattedNum;
 
-    // Calculate the effect value (cumulative multiplied by 30)
-    var effect2 = culamative * 30;
-    console.log(effect2); // Log the effect value to the console for debugging
+            // Calculate the effect value (cumulative multiplied by 30)
+            var effect2 = culamative * 272.5;
+            console.log(effect2); // Log the effect value to the console for debugging
 
-    // Format the effect value to 2 decimal places and update the HTML element
-    formattedNum = effect2.toFixed(2);
-    div = document.getElementById('effect2');
-    div.innerHTML = formattedNum;
-}
+            // Format the effect value to 2 decimal places and update the HTML element
+            formattedNum = effect2.toFixed(2);
+            div = document.getElementById('effect2');
+            div.innerHTML = "£ "+formattedNum;
+        }
 
-// Initialize the slider value to 0
-document.getElementById('slider').value = 0;
+        // Initialize the slider value to 0
+        document.getElementById('slider').value = 0;
 
-// Variables to store chart instances and data
-var chart1 = null; // Chart instance for group 1
-var chart2 = null; // Chart instance for group 2
-var combinedSum = {}; // Object to store combined sum data
-var costSum = {}; // Object to store cost sum data
-var propSum = {}; // Object to store proportional sum data
+        // Variables to store chart instances and data
+        var chart1 = null; // Chart instance for group 1
+        var chart2 = null; // Chart instance for group 2
+        var combinedSum = {}; // Object to store combined sum data
+        var costSum = {}; // Object to store cost sum data
+        var propSum = {}; // Object to store proportional sum data
 
-// Group 1 data labels
-const group1 = [
-    [
-        "SF_12_10", "SF_12_20", "SF_12_30", "SF_12_40", "SF_12_50", "SF_12_60",
-        "SF_12_70", "SF_12_80", "SF_12_90", "SF_12_100", "SF_12_110", "SF_12_120", "SF_12_130"
-    ]
-];
+        // Group 1 data labels
+        const group1 = [
+            [
+                "SF_12_10", "SF_12_20", "SF_12_30", "SF_12_40", "SF_12_50", "SF_12_60",
+                "SF_12_70", "SF_12_80", "SF_12_90", "SF_12_100", "SF_12_110", "SF_12_120", "SF_12_130"
+            ]
+        ];
 
-// Group 2 data labels
-const group2 = [
-    ["count_10", "count_20", "count_30", "count_40", "count_50", "count_60", "count_70",
-        "count_80", "count_90", "count_100", "count_110", "count_120", "count_130"
-    ]
-];
+        // Group 2 data labels
+        const group2 = [
+            ["count_10", "count_20", "count_30", "count_40", "count_50", "count_60", "count_70",
+                "count_80", "count_90", "count_100", "count_110", "count_120", "count_130"
+            ]
+        ];
 
-// Color palettes for the charts
-const colors1 = ["#440154FF", "#481668FF", "#482878FF", "#443A83FF", "#3E4A89FF",
-    "#375A8CFF", "#31688EFF", "#2B758EFF", "#26828EFF", "#21908CFF", "#1F9E89FF",
-    "#25AB82FF", "#35B779FF", "#4EC36BFF", "#6DCD59FF", "#8FD744FF", "#B4DE2CFF",
-    "#DAE319FF", "#FDE725FF"
-];
-const colors2 = ["#6DCD59FF", "#4EC36BFF",
-    "#35B779FF", "#25AB82FF", "#1F9E89FF", "#21908CFF", "#26828EFF", "#2B758EFF",
-    "#31688EFF", "#375A8CFF", "#3E4A89FF", "#443A83FF", "#482878FF", "#481668FF", "#440154FF"
-];
+        // Color palettes for the charts
+        const colors1 = ["#440154FF", "#481668FF", "#482878FF", "#443A83FF", "#3E4A89FF",
+            "#375A8CFF", "#31688EFF", "#2B758EFF", "#26828EFF", "#21908CFF", "#1F9E89FF",
+            "#25AB82FF", "#35B779FF", "#4EC36BFF", "#6DCD59FF", "#8FD744FF", "#B4DE2CFF",
+            "#DAE319FF", "#FDE725FF"
+        ];
+        const colors2 = ["#6DCD59FF", "#4EC36BFF",
+            "#35B779FF", "#25AB82FF", "#1F9E89FF", "#21908CFF", "#26828EFF", "#2B758EFF",
+            "#31688EFF", "#375A8CFF", "#3E4A89FF", "#443A83FF", "#482878FF", "#481668FF", "#440154FF"
+        ];
 
-// Load data and initialize chart 1
-Promise.all([
-    d3.csv("Results/combined_summary_grouped_mean.csv"),
-    d3.csv("Results/combined_summary_grouped_std.csv"),
-    d3.csv("Results/combined_summary_grouped_sum.csv"),
-    d3.csv("Results/combined_summary_grouped_sum_cost.csv"),
-]).then(([meanData, stdData, sumCombined, sumCost]) => {
-    // Initialize chart 1 with the loaded data
-    chart1 = new HealthImpactChartPassData(
-        "chart1",
-        meanData,
-        stdData,
-        group1,
-        'year',
-        [colors1[0]],
-        'Year',
-        'SF12 mental complient score',
-        [2020, 2035],
-        [0, 2.6]
-    );
+        // Load data and initialize chart 1
+        Promise.all([
+            d3.csv("Results/combined_summary_grouped_mean.csv"),
+            d3.csv("Results/combined_summary_grouped_std.csv"),
+            d3.csv("Results/combined_summary_grouped_sum.csv"),
+            d3.csv("Results/combined_summary_grouped_sum_cost.csv"),
+        ]).then(([meanData, stdData, sumCombined, sumCost]) => {
+            // Initialize chart 1 with the loaded data
+            chart1 = new HealthImpactChartPassData(
+                "chart1",
+                meanData,
+                stdData,
+                group1,
+                'year',
+                [colors1[0]],
+                'Year',
+                'SF12 mental complient score',
+                [2020, 2035],
+                [0, 2.6]
+            );
 
-    // Populate the combinedSum object with data from sumCombined
-    for (let i = 0; i < sumCombined.length; i++) {
-        combinedSum[sumCombined[i]["SF_12_0"]] = Number(sumCombined[i]['0']);
-    }
+            // Populate the combinedSum object with data from sumCombined
+            for (let i = 0; i < sumCombined.length; i++) {
+                combinedSum[sumCombined[i]["SF_12_0"]] = Number(sumCombined[i]['0']);
+            }
 
-    // Populate the costSum object with data from sumCost
-    for (let i = 0; i < sumCost.length; i++) {
-        costSum[sumCost[i]["SF_12_0"]] = Number(sumCost[i]['0']);
-    }
+            // Populate the costSum object with data from sumCost
+            for (let i = 0; i < sumCost.length; i++) {
+                costSum[sumCost[i]["SF_12_0"]] = Number(sumCost[i]['0']);
+            }
 
-    // Display initial values for group 1
-    displayNumbers1(0);
+            // Display initial values for group 1
+            displayNumbers1(0);
 
-}).catch(error => {
-    console.error("Error loading data:", error); // Log any errors during data loading
-});
+        }).catch(error => {
+            console.error("Error loading data:", error); // Log any errors during data loading
+        });
 
-/**
- * Logs the sum of a specific feature from chart 2 to the console.
- */
-function output() {
-    console.log(chart2.sum("SF_12_10"));
-}
+        /**
+         * Logs the sum of a specific feature from chart 2 to the console.
+         */
+        function output() {
+            console.log(chart2.sum("SF_12_10"));
+        }
 
-// Load data and initialize chart 2
-Promise.all([
-    d3.csv("Results/combined_summary_UC_families_men_illness_risk_mean.csv"),
-    d3.csv("Results/combined_summary_UC_families_men_illness_risk_std.csv"),
-    d3.csv("Results/combined_summary_UC_families_men_illness_risk_sum.csv"),
-]).then(([meanData, stdData, sumProp]) => {
-    // Initialize chart 2 with the loaded data
-    chart2 = new HealthImpactChartPassData(
-        "chart2",
-        meanData,
-        stdData,
-        group2,
-        'year',
-        [colors1[0]],
-        'Year',
-        'Mean',
-        [2020, 2035],
-        [-1400, 0]
-    );
+        // Load data and initialize chart 2
+        Promise.all([
+            d3.csv("Results/combined_summary_UC_families_men_illness_risk_mean.csv"),
+            d3.csv("Results/combined_summary_UC_families_men_illness_risk_std.csv"),
+            d3.csv("Results/combined_summary_UC_families_men_illness_risk_sum.csv"),
+        ]).then(([meanData, stdData, sumProp]) => {
+            // Initialize chart 2 with the loaded data
+            chart2 = new HealthImpactChartPassData(
+                "chart2",
+                meanData,
+                stdData,
+                group2,
+                'year',
+                [colors1[0]],
+                'Year',
+                'Mean',
+                [2020, 2035],
+                [-1400, 0]
+            );
 
-    // Populate the propSum object with data from sumProp
-    for (let i = 0; i < sumProp.length; i++) {
-        propSum[sumProp[i]["count_0"]] = Number(sumProp[i]['0']);
-    }
+            // Populate the propSum object with data from sumProp
+            for (let i = 0; i < sumProp.length; i++) {
+                propSum[sumProp[i]["count_0"]] = Number(sumProp[i]['0']);
+            }
 
-    // Display initial values for group 2
-    displayNumbers2(0);
+            // Display initial values for group 2
+            displayNumbers2(0);
 
-}).catch(error => {
-    console.error("Error loading data:", error); // Log any errors during data loading
-});
+        }).catch(error => {
+            console.error("Error loading data:", error); // Log any errors during data loading
+        });
 
-/**
- * Handles slider changes and updates the charts and displayed values.
- * @param {number} value - The index of the selected slider value.
- */
-function selectSf(value) {
-    // Update chart 1 with the selected group and color
-    chart1.update(value, [colors1[value]]);
+        /**
+         * Handles slider changes and updates the charts and displayed values.
+         * @param {number} value - The index of the selected slider value.
+         */
+        function selectSf(value) {
+            // Update chart 1 with the selected group and color
+            chart1.update(value, [colors1[value]]);
 
-    // Update the cumulative value displayed for chart 1
-    document.getElementById("culamative").innerHTML = chart1.sum(group1[0][value]);
+            // Update the cumulative value displayed for chart 1
+            document.getElementById("culamative").innerHTML = chart1.sum(group1[0][value]);
 
-    // Update chart 2 with the selected group and color
-    chart2.update(value, [colors1[value]]);
+            // Update chart 2 with the selected group and color
+            chart2.update(value, [colors1[value]]);
 
-    // Calculate and display the money value based on the slider value
-    const money = (parseInt(value) + 1) * 10;
-    document.getElementById('SFLevel').innerHTML = `${money} Pounds`;
+            // Calculate and display the money value based on the slider value
+            const money = (parseInt(value) + 1) * 10;
+            document.getElementById('SFLevel').innerHTML = `${money} Pounds`;
 
-    // Update displayed numbers for both groups
-    displayNumbers1(value);
-    displayNumbers2(value);
-}
+            // Update displayed numbers for both groups
+            displayNumbers1(value);
+            displayNumbers2(value);
+        }
 
 
 
@@ -386,7 +368,7 @@ function selectSf(value) {
         // );
     </script>
 </body>
-                    <!-- <div class="ticks">
+<!-- <div class="ticks">
                         <span>10</span>
                         <span>20</span>
                         <span>30</span>
@@ -401,4 +383,5 @@ function selectSf(value) {
                         <span>120</span>
                         <span>130</span>
                     </div> -->
+
 </html>
