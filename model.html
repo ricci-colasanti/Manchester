@@ -183,12 +183,12 @@
             div.innerHTML = formattedNum;
 
             // Format the cost value to exponential notation and update the HTML element
-            formattedNum = cost.toFixed(2);
+            formattedNum = d3.format(",.0f")(cost);
             div = document.getElementById('cost');
             div.innerHTML = formattedNum;
 
             // Format the effect value to exponential notation and update the HTML element
-            formattedNum = effect1.toFixed(2);
+            formattedNum = d3.format(",.2f")(effect1)//.toFixed(2);
             div = document.getElementById('effect1');
             div.innerHTML = formattedNum;
         }
@@ -199,7 +199,7 @@
          */
         function displayNumbers2(value) {
             // Retrieve cumulative value from the respective dataset
-            var culamative = -propSum[group2[0][value]];
+            var culamative = propSum[group2[0][value]];
 
             // Format the cumulative value to 2 decimal places and update the HTML element
             var formattedNum = culamative.toFixed(2);
@@ -211,7 +211,7 @@
             console.log(effect2); // Log the effect value to the console for debugging
 
             // Format the effect value to 2 decimal places and update the HTML element
-            formattedNum = effect2.toFixed(2);
+            formattedNum = d3.format(",.2f")(effect2)//.toFixed(2);
             div = document.getElementById('effect2');
             div.innerHTML = "£ "+formattedNum;
         }
@@ -281,8 +281,6 @@
 
             // Populate the costSum object with data from sumCost
             for (let i = 0; i < sumCost.length; i++) {
-                console.log(sumCost[i]);
-                
                 costSum[sumCost[i]["SF_12_0"]] = Number(sumCost[i]['0']);
             }
 
