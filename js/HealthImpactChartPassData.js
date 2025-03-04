@@ -73,7 +73,7 @@ class HealthImpactChartPassData {
         // Create x-axis
         //const xAxis = d3.axisBottom(this.x).tickFormat(d => d.toString().replace(',', ''));
         // Assuming this.xRange is an array of your domain values
-const tickValues = d3.range(this.xRange[0], this.xRange[1], 2); // Adjust the step as needed
+        const tickValues = d3.range(this.xRange[0], this.xRange[1], 2); // Adjust the step as needed
         const xAxis = d3.axisBottom(this.x)
                 .tickValues(tickValues) // Specify the exact tick values
                 .tickFormat(d => d.toString().replace(',', '')); // Format the ticks as needed
