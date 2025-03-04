@@ -45,13 +45,6 @@
     justify-content: space-between; /* This will push the left and right text to the edges */
 }
 
-.left-text {
-text-align: left; /* Aligns text to the left */
-}
-
-.right-text {
-text-align: right; /* Aligns text to the right */
-}
 
 .container {
     width: 100%;
