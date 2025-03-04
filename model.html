@@ -135,10 +135,10 @@
                     <div class="cbox" id="culamative"></div>
                 </div>
                 <div class="box">The total cost of the intervention for the entire model period (2020 - 2035) over the population impacted 
-                    <div class='cbox' id="effect1"></div>
+                    <div class='cbox' id="prop"></div>
                 </div>
                 <div class="box">The total number of SF-12 MCS units per £1,000 spent for the entire model period (2020 - 2035) 
-                    <div class="cbox" id="prop"></div>
+                    <div class="cbox" id="effect1"></div>
                 </div>
                 <br>
             </div>
@@ -199,7 +199,7 @@
          */
         function displayNumbers2(value) {
             // Retrieve cumulative value from the respective dataset
-            var culamative = propSum[group2[0][value]];
+            var culamative = -propSum[group2[0][value]];
 
             // Format the cumulative value to 2 decimal places and update the HTML element
             var formattedNum = culamative.toFixed(2);
@@ -275,11 +275,14 @@
 
             // Populate the combinedSum object with data from sumCombined
             for (let i = 0; i < sumCombined.length; i++) {
+                //console.log(sumCombined[i]);
                 combinedSum[sumCombined[i]["SF_12_0"]] = Number(sumCombined[i]['0']);
             }
 
             // Populate the costSum object with data from sumCost
             for (let i = 0; i < sumCost.length; i++) {
+                console.log(sumCost[i]);
+                
                 costSum[sumCost[i]["SF_12_0"]] = Number(sumCost[i]['0']);
             }
 
