@@ -206,7 +206,7 @@
     div.innerHTML = formattedNum;
 
     // Format the effect value to exponential notation and update the HTML element
-    formattedNum = effect1.toExponential(2);
+    formattedNum = effect1.toFixed(2);
     div = document.getElementById('effect1');
     div.innerHTML = formattedNum;
 }
@@ -337,7 +337,7 @@ Promise.all([
 
     // Populate the propSum object with data from sumProp
     for (let i = 0; i < sumProp.length; i++) {
-        propSum[sumProp[i]["prop_0"]] = Number(sumProp[i]['0']);
+        propSum[sumProp[i]["count_0"]] = Number(sumProp[i]['0']);
     }
 
     // Display initial values for group 2
