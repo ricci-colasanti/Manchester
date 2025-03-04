@@ -40,11 +40,17 @@
     border: 1px solid #000; /* Adjust border style as needed */
     box-sizing: border-box; /* Ensure padding is included in the width */
     margin-bottom: 10px; /* Add some space between boxes */
-    margin-right: 50%;
+ /* Add some space between the bold text and the cumulative text */
+    display: flex;
+    justify-content: space-between; /* This will push the left and right text to the edges */
 }
 
-.box b {
-    margin-right: 10px; /* Add some space between the bold text and the cumulative text */
+.left-text {
+text-align: left; /* Aligns text to the left */
+}
+
+.right-text {
+text-align: right; /* Aligns text to the right */
 }
 
 .container {
