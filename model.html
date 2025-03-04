@@ -110,49 +110,73 @@
           </ul>
         </div>
       </nav>
-    <div class="tooltip"></div>
-    <div class="container mt-5">
+    
+    
+    
+      <div class="tooltip"></div>
+
+
+
+    
+  <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
-                <div id="chart1" class="col"></div>
-                <div id="SFLevel">10 Pounds</div>
-                <div class="slider-container">
+                <div class="d-flex justify-content-center align-items-center" style="margin-top: 5%;"">
+                    <div id="chart1" class="col"  width="80%"></div>
+                  </div>
+                <div class="slider-container" style="margin-left: 25%;padding-right: 10%;">
+                    <div id="SFLevel">10 Pounds</div>
                     <input id="slider" type="range" value="0" class="form-range" min="0" max="12" step="1"
                         oninput="selectSf(this.value)">
-                    <!-- <div class="ticks">
-                        <span>10</span>
-                        <span>20</span>
-                        <span>30</span>
-                        <span>40</span>
-                        <span>50</span>
-                        <span>60</span>
-                        <span>70</span>
-                        <span>80</span>
-                        <span>90</span>
-                        <span>100</span>
-                        <span>110</span>
-                        <span>120</span>
-                        <span>130</span>
-                    </div> -->
+
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div><b>(A) </b> Cumulative: <span id="culamative"></span></div>
+            <div class="col-sm-3">
+                <br>
+                <br>
+                <div class="box">Cumulative SF-12 : <span id="culamative"></span></div>
+                <div class="box">Total Cost * £ 1000 : <span id="cost"></span></div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <div class = "box">Coat effectivness <span id="effect1"></span></div>
+                
+            </div>
+            <div class="col-sm-3">
+                <br>
+                <br>
+                <p> Explanitory text here?    </p>
+                <!-- <div><b>(A) </b> Cumulative: <span id="culamative"></span></div>
                 <div><b>(B) </b> Cost: <span id="cost"></span></div>
                 <div>Coast: <span id="cost"></span></div>
                 <div>Coat effectivness:</div>
                 <div><b>(C) </b>1 ((A)/(B)) *1000: <span id="effect1"></span></div>
-                <div><b>(D) </b>2 (E)*30: <span id="effect2"></span></div>
+                <div class="box">Cost reduction :0: <span id="effect2"></span></div> -->
             </div>
         </div>
         <div class="row" style="padding-top: 50px;">
             <div class="col-sm-6">
                 <div id="chart2" class="chart"></div>
             </div>
-            <div class="col-sm-6">
-
-                <div><b>(E) </b> Cumulative N: <span id="prop"></span></div>
+            <div class="col-sm-3">
+                <br>
+                <br>
+                <div class="box">Cumulative N : <span id="prop"></span></div>
+                <div class="box">Cost reduction :: <span id="effect2"></span></div>
             </div>
+            <!-- <div class="col-sm-3">
+                <div><b>(A) </b> Cumulative: <span id="culamative"></span></div>
+                <div><b>(B) </b> Cost: <span id="cost"></span></div>
+                <div>Coast: <span id="cost"></span></div>
+                <div>Coat effectivness:</div>
+                <div><b>(C) </b>1 ((A)/(B)) *1000: <span id="effect1"></span></div>
+                <div><b>(D) </b>2 (E)*30: <span id="effect2"></span></div>
+            </div> -->
         </div>
     </div>
 
@@ -361,5 +385,19 @@ function selectSf(value) {
         // );
     </script>
 </body>
-
+                    <!-- <div class="ticks">
+                        <span>10</span>
+                        <span>20</span>
+                        <span>30</span>
+                        <span>40</span>
+                        <span>50</span>
+                        <span>60</span>
+                        <span>70</span>
+                        <span>80</span>
+                        <span>90</span>
+                        <span>100</span>
+                        <span>110</span>
+                        <span>120</span>
+                        <span>130</span>
+                    </div> -->
 </html>

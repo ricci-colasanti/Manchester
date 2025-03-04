@@ -33,3 +33,16 @@
     font-size: larger;
     text-align: center;
 }
+
+.box {
+    width: 100%;
+    padding: 10px; /* Adjust padding as needed */
+    border: 1px solid #000; /* Adjust border style as needed */
+    box-sizing: border-box; /* Ensure padding is included in the width */
+    margin-bottom: 10px; /* Add some space between boxes */
+    margin-right: 50%;
+}
+
+.box b {
+    margin-right: 10px; /* Add some space between the bold text and the cumulative text */
+}
