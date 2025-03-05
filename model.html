@@ -156,7 +156,7 @@
                 <div class="box">The total number of people no longer at risk of a diagnosis ​of a clinical depressive disorder 
                     <div class="cbox" id="cost"></div>
                 </div>
-                <div class="box">The potential saving to the health service. This is based on​A cost of £272.50 per patient*. 
+                <div class="box">The potential saving to the health service. This is based on ​a cost of £272.50 per patient*. 
                     <div class="cbox" id="effect2"></div>
                 </div>
             </div>
@@ -172,6 +172,7 @@
         function displayNumbers1(value) {
             // Retrieve cumulative and cost values from the respective datasets
             var culamative = combinedSum[group1[0][value]];
+            culamative = culamative/0.0075
             var cost = costSum[group1[0][value]] ;
 
             // Calculate the effect value (cumulative divided by cost, multiplied by 1000)
@@ -211,7 +212,8 @@
             console.log(effect2); // Log the effect value to the console for debugging
 
             // Format the effect value to 2 decimal places and update the HTML element
-            formattedNum = effect2.toFixed(2)//.toFixed(2);
+            //formattedNum = effect2.toFixed(2)//.toFixed(2);
+            formattedNum = d3.format(",.0f")(-effect2)
             div = document.getElementById('effect2');
             div.innerHTML = "£ "+formattedNum;
         }
