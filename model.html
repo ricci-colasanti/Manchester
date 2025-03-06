@@ -184,7 +184,7 @@
             div.innerHTML = formattedNum;
 
             // Format the cost value to exponential notation and update the HTML element
-            formattedNum = d3.format(",.0f")(cost);
+            formattedNum = d3.format(",.0f")(cost/0.0075);
             div = document.getElementById('cost');
             div.innerHTML = formattedNum;
 
@@ -203,12 +203,12 @@
             var culamative = propSum[group2[0][value]];
 
             // Format the cumulative value to 2 decimal places and update the HTML element
-            var formattedNum = d3.format(",.0f")(-culamative*1000)//.toFixed(2);
+            var formattedNum = d3.format(",.0f")((-culamative*1000)/0.0075)//.toFixed(2);
             var div = document.getElementById('prop');
             div.innerHTML = "£ "+formattedNum;
 
             // Calculate the effect value (cumulative multiplied by 30)
-            var effect2 = culamative * 272.5;
+            var effect2 = (culamative * 272.5 )/0.0075;
             console.log(effect2); // Log the effect value to the console for debugging
 
             // Format the effect value to 2 decimal places and update the HTML element
