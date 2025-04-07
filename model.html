@@ -137,9 +137,9 @@
                 <div class="box">The 'area under the curve' - cumulative SF-12 MCS​ change for the entire model period (2020 - 2035) <b>culamative</b>
                     <div class="cbox" id="culamative"></div>
                 </div>
-                <div class="box">The total cost of the intervention for the entire model period (2020 - 2035) over the population impacted  <b>prop</b>
+                <!-- <div class="box">The total cost of the intervention for the entire model period (2020 - 2035) over the population impacted  <b>prop</b>
                     <div class='cbox' id="prop"></div>
-                </div>
+                </div> -->
                 <div class="box">The total number of SF-12 MCS units per £1,000 spent for the entire model period (2020 - 2035) <b>effect1</b>
                     <div class="cbox" id="effect1"></div>
                 </div>
@@ -214,10 +214,10 @@ window.addEventListener('resize', function() {
             // Retrieve cumulative value from the respective dataset
             var culamative = propSum[group2[0][value]];
 
-            // Format the cumulative value to 2 decimal places and update the HTML element
-            var formattedNum = d3.format(",.0f")((-culamative*1000)/0.0075)//.toFixed(2);
-            var div = document.getElementById('prop');
-            div.innerHTML = "£ "+formattedNum;
+            // // Format the cumulative value to 2 decimal places and update the HTML element
+            // var formattedNum = d3.format(",.0f")((-culamative)/0.0075)//.toFixed(2);
+            // var div = document.getElementById('prop');
+            // div.innerHTML = "£ "+formattedNum;
 
             // Calculate the effect value (cumulative multiplied by 30)
             var effect2 = (culamative * 272.5 )/0.0075;
