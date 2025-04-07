@@ -27,7 +27,10 @@
             border-radius: 5px;
             pointer-events: none;
             opacity: 0.1;
+
         }
+
+
 
         #slider {
             width: 100%;
@@ -131,13 +134,13 @@
                 </div>
             </div>
             <div class="col-sm-3">
-                <div class="box">The 'area under the curve' - cumulative SF-12 MCS​ change for the entire model period (2020 - 2035) 
+                <div class="box">The 'area under the curve' - cumulative SF-12 MCS​ change for the entire model period (2020 - 2035) <b>culamative</b>
                     <div class="cbox" id="culamative"></div>
                 </div>
-                <div class="box">The total cost of the intervention for the entire model period (2020 - 2035) over the population impacted 
+                <div class="box">The total cost of the intervention for the entire model period (2020 - 2035) over the population impacted  <b>prop</b>
                     <div class='cbox' id="prop"></div>
                 </div>
-                <div class="box">The total number of SF-12 MCS units per £1,000 spent for the entire model period (2020 - 2035) 
+                <div class="box">The total number of SF-12 MCS units per £1,000 spent for the entire model period (2020 - 2035) <b>effect1</b>
                     <div class="cbox" id="effect1"></div>
                 </div>
                 <br>
@@ -153,10 +156,10 @@
             <div class="col-sm-3">
                 <br>
                 <br>
-                <div class="box">The total number of people no longer at risk of a diagnosis ​of a clinical depressive disorder 
+                <div class="box">The total number of people no longer at risk of a diagnosis ​of a clinical depressive disorder <b>cost</b>
                     <div class="cbox" id="cost"></div>
                 </div>
-                <div class="box">The potential saving to the health service. This is based on ​a cost of £272.50 per patient*. 
+                <div class="box">The potential saving to the health service. This is based on ​a cost of £272.50 per patient*. <b>effect2</b>
                     <div class="cbox" id="effect2"></div>
                 </div>
             </div>
@@ -165,6 +168,15 @@
 
 
     <script>
+
+window.addEventListener('resize', function() {
+            // Reload the page after a short delay to avoid multiple reloads during a resize event
+            clearTimeout(window.resizeTimeout);
+            window.resizeTimeout = setTimeout(function() {
+                window.location.reload();
+            }, 200); // Adjust the delay as needed
+        });
+
         /**
          * Displays cumulative, cost, and effect values for group 1 based on the selected slider value.
          * @param {number} value - The index of the selected slider value.
@@ -357,34 +369,8 @@
 
 
 
-        // new HealthImpactChartMultiLine(
-        //     "chart2",
-        //     "Results/combined_summary_UC_families_men_illness_risk_mean.csv",
-        //     "Results/combined_summary_UC_families_men_illness_risk_std.csv",
-        //     group2,
-        //     'year',
-        //     [colors1[0]],
-        //     'Year',
-        //     'Mean',
-        //     [2020, 2036],
-        //     [-0.20, 0]
-        // );
     </script>
 </body>
-<!-- <div class="ticks">
-                        <span>10</span>
-                        <span>20</span>
-                        <span>30</span>
-                        <span>40</span>
-                        <span>50</span>
-                        <span>60</span>
-                        <span>70</span>
-                        <span>80</span>
-                        <span>90</span>
-                        <span>100</span>
-                        <span>110</span>
-                        <span>120</span>
-                        <span>130</span>
-                    </div> -->
+
 
 </html>

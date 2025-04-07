@@ -140,12 +140,16 @@ class HealthImpactChartPassData {
                         .html(`Value: ${d3.format('.3r')(d.value)} <br>Stdev ${d3.format('.3r')(d.std)}`)
                         .style("left", `${event.pageX + 5}px`)
                         .style("top", `${event.pageY - 20}px`);
+                        d3.select(event.currentTarget).style("cursor", "pointer");
                 })
                 .on("mousemove", event => {
                     this.tooltip.style("left", `${event.pageX + 5}px`)
                         .style("top", `${event.pageY - 20}px`);
                 })
-                .on("mouseout", () => this.tooltip.style("opacity", 0));
+                .on("mouseout", event => {
+                    d3.select(event.currentTarget).style("cursor", "default");
+                    this.tooltip.style("opacity", 0)
+                });
 
             this.line.push(line);
             this.area.push(area);
