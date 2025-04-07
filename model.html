@@ -249,9 +249,14 @@ window.addEventListener('resize', function() {
         ];
 
         // Group 2 data labels
+        // const group2 = [
+        //     ["count_10", "count_20", "count_30", "count_40", "count_50", "count_60", "count_70",
+        //         "count_80", "count_90", "count_100", "count_110", "count_120", "count_130"
+        //     ]
+        // ];
         const group2 = [
-            ["count_10", "count_20", "count_30", "count_40", "count_50", "count_60", "count_70",
-                "count_80", "count_90", "count_100", "count_110", "count_120", "count_130"
+            ["prop_10", "prop_20", "prop_30", "prop_40", "prop_50", "prop_60", "prop_70",
+                "prop_80", "prop_90", "prop_100", "prop_110", "prop_120", "prop_130"
             ]
         ];
 
@@ -329,12 +334,12 @@ window.addEventListener('resize', function() {
                 'Year',
                 'Count',
                 [2020, 2035],
-                [-1400, 0]
+                [-16, 0]
             );
 
             // Populate the propSum object with data from sumProp
             for (let i = 0; i < sumProp.length; i++) {
-                propSum[sumProp[i]["count_0"]] = Number(sumProp[i]['0']);
+                propSum[sumProp[i]["prop_0"]] = Number(sumProp[i]['0']);
             }
 
             // Display initial values for group 2
