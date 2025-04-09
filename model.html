@@ -124,26 +124,32 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
-                <div id="chart1" class="chart" style="margin-top: 5%;"></div>
-
-                <div class="slider-container" style="margin-left: 25%;padding-right: 10%;">
-                    <div id="SFLevel">10 Pounds</div>
-                    <input id="slider" type="range" value="0" class="form-range" min="0" max="12" step="1"
-                        oninput="selectSf(this.value)">
-
+                <div  style="margin-left: 25%;padding-right: 10%;padding-top: 10px; font-size:12px;">
+                    Change in SF-12 Mental Component Score when varying the Child Payment for Universal Credit recipients. Results for the whole intervention population, which is all households with children who qualify for Universal Credit.
                 </div>
+                                <div id="chart1" class="chart" style="margin-top: 5%;"></div>
+
+            
+
             </div>
             <div class="col-sm-3">
                 <div class="box">The 'area under the curve' - cumulative SF-12 MCS​ change for the entire model period (2020 - 2035) 
                     <div class="cbox" id="culamative"></div>
                 </div>
+                
                 <!-- <div class="box">The total cost of the intervention for the entire model period (2020 - 2035) over the population impacted  <b>prop</b>
                     <div class='cbox' id="prop"></div>
                 </div> -->
                 <div class="box">The total number of SF-12 MCS units per £1,000 spent for the entire model period (2020 - 2035) 
                     <div class="cbox" id="effect1"></div>
                 </div>
-                <br>
+                <div class="slider-container"style="margin-left: 5%;padding-right: 1%;padding-top: 10px; font-size:12px;">
+                    <div id="SFLevel">10 Pounds</div>
+                    <input id="slider" type="range" value="0" class="form-range" min="0" max="12" step="1"
+                        oninput="selectSf(this.value)">
+
+                </div>
+            
             </div>
             <div class="col-sm-3">
             
@@ -151,12 +157,17 @@
         </div>
         <div class="row"">
             <div class="col-sm-6">
+                <div  style="margin-left: 25%;padding-right: 10%; font-size:12px;">
+                    Change in percentage of adults at or below clinical threshold levels of anxiety and depression, defined as a SF-12 MCS score below 45.6.
+                </div>
                 <div id="chart2" class="chart"></div>
+
             </div>
             <div class="col-sm-3">
                 <br>
                 <br>
-                <div class="box">The total number of people no longer at risk of a diagnosis ​of a clinical depressive disorder 
+                <div class="box">The total number of people no longer at risk of a diagnosis ​of a clinical depressive disorder (measured in 2028) – scaled to the eligible England and Wales Population.
+ 
                     <div class="cbox" id="cost"></div>
                 </div>
                 <div class="box">The potential saving to the health service. This is based on ​a cost of £272.50 per patient*. 
@@ -179,11 +190,14 @@ window.addEventListener('resize', function() {
             }, 200); // Adjust the delay as needed
         });
 
+        const mcost =[-9767.0,-21861.0,-35079.0,-47120.0,-58462.0,-67972.0,-77243.0,-84067.0,-90817.0,-97027.0,-102250.0,-106739.0,-110798.0]
+
         /**
          * Displays cumulative, cost, and effect values for group 1 based on the selected slider value.
          * @param {number} value - The index of the selected slider value.
          */
         function displayNumbers1(value) {
+            
             // Retrieve cumulative and cost values from the respective datasets
             var culamative = combinedSum[group1[0][value]];
             culamative = culamative/0.0075
@@ -198,7 +212,9 @@ window.addEventListener('resize', function() {
             div.innerHTML = formattedNum;
 
             // Format the cost value to exponential notation and update the HTML element
-            formattedNum = d3.format(",.0f")(cost/0.0075);
+            // formattedNum = d3.format(",.0f")(cost/0.0075);
+            formattedNum = -mcost[value];
+
             div = document.getElementById('cost');
             div.innerHTML = formattedNum;
 
@@ -214,7 +230,8 @@ window.addEventListener('resize', function() {
          */
         function displayNumbers2(value) {
             // Retrieve cumulative value from the respective dataset
-            var culamative = propSum[group2[0][value]];
+            // var culamative = propSum[group2[0][value]];
+            var culamative = mcost[value]
 
             // // Format the cumulative value to 2 decimal places and update the HTML element
             // var formattedNum = d3.format(",.0f")((-culamative)/0.0075)//.toFixed(2);
@@ -222,7 +239,7 @@ window.addEventListener('resize', function() {
             // div.innerHTML = "£ "+formattedNum;
 
             // Calculate the effect value (cumulative multiplied by 30)
-            var effect2 = (culamative * 272.5 )/0.0075;
+            var effect2 = (culamative * 272.5 );
             console.log(effect2); // Log the effect value to the console for debugging
 
             // Format the effect value to 2 decimal places and update the HTML element
@@ -273,6 +290,7 @@ window.addEventListener('resize', function() {
             "#31688EFF", "#375A8CFF", "#3E4A89FF", "#443A83FF", "#482878FF", "#481668FF", "#440154FF"
         ];
 
+        
         // Load data and initialize chart 1
         Promise.all([
             d3.csv("Results/combined_summary_grouped_mean.csv"),
@@ -341,7 +359,7 @@ window.addEventListener('resize', function() {
 
             // Populate the propSum object with data from sumProp
             for (let i = 0; i < sumProp.length; i++) {
-                propSum[sumProp[i]["prop_0"]] = Number(sumProp[i]['0']);
+                propSum[sumProp[i]["count_0"]] = Number(sumProp[i]['0']);
             }
 
             // Display initial values for group 2
